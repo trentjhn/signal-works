@@ -1,0 +1,74 @@
+---
+// ProcessStep.astro
+// One face of the Process deck. Mounted 3x from index.astro with step props.
+// Copy verbatim from PROJECT.md — do not rewrite.
+//
+// Layout: asymmetric 2-col grid. Left rail holds the oversized Instrument Serif
+// numeral as the face's single editorial accent. Right column carries eyebrow,
+// title, body, and (on step 3 only) a closing coda line.
+
+interface Props {
+  stepNumber: 1 | 2 | 3;
+  numeral: 'I' | 'II' | 'III';
+  stepWord: 'One' | 'Two' | 'Three';
+  title: string;
+  body: string;
+  background: 'bg' | 'surface';
+  closing?: string;
+}
+
+const { stepNumber, numeral, stepWord, title, body, background, closing } = Astro.props;
+const bgClass = background === 'surface' ? 'bg-surface' : 'bg-background';
+---
+
+<section
+  id={`process-${stepNumber}`}
+  class={`section ${bgClass}`}
+  aria-label={`How it works — step ${stepNumber}`}
+>
+  <div class="container h-full flex flex-col justify-center">
+
+    <div class="grid grid-cols-1 lg:grid-cols-[140px_1fr] gap-8 lg:gap-16 items-start max-w-[1080px]">
+
+      <!-- Left rail: oversized serif numeral -->
+      <div class="pt-1 lg:pt-3 reveal-stagger" style="--stagger-delay: 0ms">
+        <span
+          class="editorial block leading-none text-accent"
+          style="font-size: clamp(72px, 10vw, 132px);"
+          aria-hidden="true"
+        >
+          {numeral}
+        </span>
+      </div>
+
+      <!-- Right column: content -->
+      <div class="max-w-[62ch]">
+        <p class="eyebrow mb-5 reveal-stagger" style="--stagger-delay: 80ms">
+          Step {stepWord} · How It Works
+        </p>
+        <h2
+          class="font-cabinet font-bold text-headline text-text-primary mb-8 reveal-stagger"
+          style="--stagger-delay: 160ms"
+        >
+          {title}
+        </h2>
+        <p
+          class="font-jakarta text-body-lg text-text-secondary reveal-stagger"
+          style="--stagger-delay: 240ms"
+        >
+          {body}
+        </p>
+
+        {closing && (
+          <div class="reveal-stagger" style="--stagger-delay: 320ms">
+            <hr class="border-0 border-t border-border max-w-[120px] my-10" />
+            <p class="editorial text-editorial text-text-primary max-w-[52ch]">
+              {closing}
+            </p>
+          </div>
+        )}
+      </div>
+
+    </div>
+  </div>
+</section>

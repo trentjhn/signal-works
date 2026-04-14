@@ -3,11 +3,37 @@ import Layout from '@layouts/Layout.astro';
 import Nav from '@components/Nav.astro';
 import Hero from '@components/Hero.astro';
 import Problem from '@components/Problem.astro';
-import Process from '@components/Process.astro';
+import ProcessStep from '@components/ProcessStep.astro';
 import About from '@components/About.astro';
 import CTA from '@components/CTA.astro';
 import Footer from '@components/Footer.astro';
 import '../styles/global.css';
+
+// Process steps — data source of truth on page. Copy verbatim from PROJECT.md.
+const processSteps = [
+  {
+    numeral: 'I' as const,
+    stepWord: 'One' as const,
+    title: 'The Audit',
+    body:
+      "We sit down with you and go through your actual day-to-day — what tools you use, where time gets lost, what your team does that a system could handle instead. Most clients are surprised how quickly the high-impact opportunities surface. You leave with a written roadmap and a ranked list of what's worth building. No vague findings.",
+  },
+  {
+    numeral: 'II' as const,
+    stepWord: 'Two' as const,
+    title: 'We Build',
+    body:
+      "If you want to move forward, we build the automations that came out of the audit. We connect your tools, configure the logic, and test against real scenarios. You don't need to be technical. You just need to show us your workflows. We hand off working automations, not mockups.",
+  },
+  {
+    numeral: 'III' as const,
+    stepWord: 'Three' as const,
+    title: 'Hand Off and Run',
+    body:
+      "We hand off with documentation and a walkthrough video, so your team knows exactly what was built and how to use it. If you want us to stay on for ongoing maintenance and new automations as your needs change, we can. If you want to take it from here, you have everything you need.",
+    closing: 'Most clients have their first automation running not long after the audit.',
+  },
+];
 ---
 
 <Layout>
@@ -15,7 +41,9 @@ import '../styles/global.css';
   <main>
     <Hero />
     <Problem />
-    <Process />
+    <ProcessStep stepNumber={1} numeral={processSteps[0].numeral} stepWord={processSteps[0].stepWord} title={processSteps[0].title} body={processSteps[0].body} background="bg" />
+    <ProcessStep stepNumber={2} numeral={processSteps[1].numeral} stepWord={processSteps[1].stepWord} title={processSteps[1].title} body={processSteps[1].body} background="surface" />
+    <ProcessStep stepNumber={3} numeral={processSteps[2].numeral} stepWord={processSteps[2].stepWord} title={processSteps[2].title} body={processSteps[2].body} background="bg" closing={processSteps[2].closing} />
     <About />
     <CTA />
   </main>
