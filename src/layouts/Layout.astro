@@ -1,0 +1,90 @@
+---
+// Layout.astro — Base layout shell
+// All pages inherit from this. Do not add page-specific content here.
+interface Props {
+  title?: string;
+  description?: string;
+  ogImage?: string;
+}
+
+const {
+  title = 'SignalWorks — Automation that actually gets built.',
+  description = 'AI automation consulting for small businesses and agencies. We map your workflows, build the automations worth building, and hand them off clean.',
+  ogImage = '/og-image.jpg',
+} = Astro.props;
+
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
+
+    <!-- Canonical -->
+    <link rel="canonical" href={canonicalURL} />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={new URL(ogImage, Astro.site)} />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={new URL(ogImage, Astro.site)} />
+
+    <!-- Favicon (placeholder — replace with actual) -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <!-- Font preloads for above-fold fonts -->
+    <link rel="preconnect" href="https://api.fontshare.com" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <title>{title}</title>
+  </head>
+  <body>
+    <a href="#hero" class="skip-link">Skip to content</a>
+    <slot />
+
+    <!-- Scroll reveal script — minimal, no library needed for simple reveals -->
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        const revealElements = document.querySelectorAll('.reveal, .reveal-stagger');
+
+        if (revealElements.length === 0) return;
+
+        // Add stagger delays to siblings
+        document.querySelectorAll('[data-stagger-group]').forEach((group) => {
+          const children = group.querySelectorAll('.reveal-stagger');
+          children.forEach((child, index) => {
+            (child as HTMLElement).style.setProperty('--stagger-delay', `${index * 80}ms`);
+          });
+        });
+
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                entry.target.classList.add('is-visible');
+                observer.unobserve(entry.target);
+              }
+            });
+          },
+          {
+            threshold: 0.1,
+            rootMargin: '0px 0px -40px 0px',
+          }
+        );
+
+        revealElements.forEach((el) => observer.observe(el));
+      });
+    </script>
+  </body>
+</html>

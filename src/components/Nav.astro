@@ -1,0 +1,131 @@
+---
+// Nav.astro
+// Sticky navigation. Adds border-bottom on scroll (no blur — see DESIGN.md).
+// CTA links to Calendly. Replace CALENDLY_URL with actual link before deploying.
+const CALENDLY_URL = 'https://calendly.com/signalworks'; // TODO: replace with real Calendly link
+---
+
+<header
+  id="nav"
+  class="sticky top-0 z-50 bg-background transition-colors duration-200"
+>
+  <div class="container">
+    <nav class="flex items-center justify-between h-[60px] md:h-[68px]">
+
+      <!-- Logo -->
+      <a
+        href="/"
+        class="font-cabinet font-bold text-[20px] text-text-primary tracking-tight hover:text-accent transition-colors duration-[150ms]"
+        aria-label="SignalWorks home"
+      >
+        SignalWorks.
+      </a>
+
+      <!-- Desktop nav links -->
+      <ul class="hidden md:flex items-center gap-8 list-none">
+        {(['Process', 'About'] as const).map((item) => (
+          <li>
+            <a
+              href={`#${item.toLowerCase()}`}
+              class="font-jakarta font-semibold text-label uppercase tracking-[0.08em] text-text-secondary hover:text-text-primary transition-colors duration-[150ms]"
+            >
+              {item}
+            </a>
+          </li>
+        ))}
+      </ul>
+
+      <!-- CTA -->
+      <a
+        href={CALENDLY_URL}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="hidden md:inline-flex btn-primary-sm"
+      >
+        Book a Workflow Audit
+      </a>
+
+      <!-- Mobile hamburger (implement toggle in script below) -->
+      <button
+        id="mobile-menu-toggle"
+        class="md:hidden flex flex-col gap-1.5 p-2 -mr-2"
+        aria-label="Toggle menu"
+        aria-expanded="false"
+        aria-controls="mobile-menu"
+      >
+        <span class="block w-6 h-0.5 bg-text-primary transition-all duration-200" id="bar-1"></span>
+        <span class="block w-6 h-0.5 bg-text-primary transition-all duration-200" id="bar-2"></span>
+        <span class="block w-6 h-0.5 bg-text-primary transition-all duration-200" id="bar-3"></span>
+      </button>
+    </nav>
+  </div>
+</header>
+
+<!-- Mobile menu overlay -->
+<div
+  id="mobile-menu"
+  class="fixed inset-0 bg-background z-40 flex flex-col items-center justify-center gap-8 opacity-0 pointer-events-none transition-opacity duration-200"
+  aria-hidden="true"
+>
+  <ul class="flex flex-col items-center gap-6 list-none">
+    {(['Process', 'About'] as const).map((item) => (
+      <li>
+        <a
+          href={`#${item.toLowerCase()}`}
+          class="font-cabinet font-bold text-[clamp(32px,6vw,48px)] text-text-primary hover:text-accent transition-colors duration-[150ms] mobile-nav-link"
+        >
+          {item}
+        </a>
+      </li>
+    ))}
+  </ul>
+  <a
+    href={CALENDLY_URL}
+    target="_blank"
+    rel="noopener noreferrer"
+    class="btn-primary mobile-nav-link"
+  >
+    Book a Workflow Audit
+  </a>
+</div>
+
+<script>
+  const nav = document.getElementById('nav');
+  const mobileMenu = document.getElementById('mobile-menu');
+  const toggle = document.getElementById('mobile-menu-toggle');
+  const bar1 = document.getElementById('bar-1');
+  const bar2 = document.getElementById('bar-2');
+  const bar3 = document.getElementById('bar-3');
+  const mobileLinks = document.querySelectorAll('.mobile-nav-link');
+  let menuOpen = false;
+
+  // Scroll border
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 80) {
+      nav?.classList.add('border-b', 'border-border');
+    } else {
+      nav?.classList.remove('border-b', 'border-border');
+    }
+  }, { passive: true });
+
+  // Mobile toggle
+  function toggleMenu(open: boolean) {
+    menuOpen = open;
+    if (!mobileMenu || !toggle) return;
+    mobileMenu.style.opacity = open ? '1' : '0';
+    mobileMenu.style.pointerEvents = open ? 'auto' : 'none';
+    mobileMenu.setAttribute('aria-hidden', String(!open));
+    toggle.setAttribute('aria-expanded', String(open));
+    document.body.style.overflow = open ? 'hidden' : '';
+
+    // Animate bars
+    if (bar1 && bar2 && bar3) {
+      bar1.style.transform = open ? 'translateY(8px) rotate(45deg)' : '';
+      bar2.style.opacity = open ? '0' : '1';
+      bar3.style.transform = open ? 'translateY(-8px) rotate(-45deg)' : '';
+    }
+  }
+
+  toggle?.addEventListener('click', () => toggleMenu(!menuOpen));
+  mobileLinks.forEach(link => link.addEventListener('click', () => toggleMenu(false)));
+</script>

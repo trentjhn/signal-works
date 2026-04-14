@@ -1,0 +1,252 @@
+/* SignalWorks — Global Styles */
+/* All values derived from DESIGN.md. Do not hardcode colors or fonts outside of this file and tailwind.config.mjs */
+
+/* ─── Font Imports ─────────────────────────────────────────────────────── */
+/* Cabinet Grotesk from Fontshare */
+@import url('https://api.fontshare.com/v2/css?f[]=cabinet-grotesk@400,500,600,700,800&display=swap');
+
+/* Plus Jakarta Sans + Instrument Serif from Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600&family=Instrument+Serif:ital@0;1&display=swap');
+
+/* ─── Tailwind Directives ──────────────────────────────────────────────── */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ─── Component classes (reusable, replaces repeated class strings) ────── */
+@layer components {
+  /* Primary button — matches DESIGN.md Button (primary) spec */
+  .btn-primary {
+    @apply inline-flex items-center h-12 px-7
+           bg-accent text-background
+           font-jakarta font-semibold text-label uppercase tracking-[0.08em]
+           rounded-btn
+           transition-colors duration-[150ms]
+           hover:bg-accent-hover active:bg-accent-active
+           focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent focus-visible:outline-offset-[3px];
+  }
+  /* Compact primary — used in nav where height is 40px */
+  .btn-primary-sm {
+    @apply inline-flex items-center h-10 px-7
+           bg-accent text-background
+           font-jakarta font-semibold text-label uppercase tracking-[0.08em]
+           rounded-btn
+           transition-colors duration-[150ms]
+           hover:bg-accent-hover active:bg-accent-active
+           focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent focus-visible:outline-offset-[3px];
+  }
+
+  /* Skip-to-content link — visually hidden until keyboard-focused */
+  .skip-link {
+    @apply sr-only;
+  }
+  .skip-link:focus-visible {
+    @apply not-sr-only fixed top-3 left-3 z-[200]
+           inline-flex items-center h-10 px-6
+           bg-accent text-background
+           font-jakarta font-semibold text-label uppercase tracking-[0.08em]
+           rounded-btn
+           outline outline-2 outline-accent outline-offset-[3px];
+  }
+}
+
+/* ─── CSS Custom Properties (design tokens) ───────────────────────────── */
+:root {
+  --color-background:         #FAFAF8;
+  --color-surface:            #F0EAD8;
+  --color-surface-elevated:   #E8DFC8;
+  --color-border:             #DDD5C0;
+  --color-border-subtle:      #EDE6D4;
+  --color-text-primary:       #1C1B19;
+  --color-text-secondary:     #6B6355;
+  --color-text-tertiary:      #9C9182;
+  --color-accent:             #1B2B4B;
+  --color-accent-hover:       #243A60;
+  --color-accent-light:       #E8EDF5;
+  --color-error:              #B04040;
+  --color-success:            #3A6B4A;
+
+  --ease-premium: cubic-bezier(0.16, 1, 0.3, 1);
+  --duration-interaction: 150ms;
+  --duration-reveal: 600ms;
+  --duration-hero: 800ms;
+}
+
+/* ─── Base Reset ───────────────────────────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--color-background);
+  color: var(--color-text-primary);
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-weight: 400;
+  line-height: 1.65;
+}
+
+img, video {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* ─── Typography Base ──────────────────────────────────────────────────── */
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Cabinet Grotesk', sans-serif;
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+  color: var(--color-text-primary);
+}
+
+p {
+  max-width: 65ch;
+  color: var(--color-text-secondary);
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* ─── Section Container ────────────────────────────────────────────────── */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 32px;
+}
+
+@media (max-width: 768px) {
+  .container {
+    padding: 0 20px;
+  }
+}
+
+/* ─── Section Padding ──────────────────────────────────────────────────── */
+.section-padding {
+  padding: 96px 0;
+}
+
+@media (max-width: 768px) {
+  .section-padding {
+    padding: 64px 0;
+  }
+}
+
+/* ─── Grain Texture Utility ────────────────────────────────────────────── */
+/* Apply .grain class to any element that needs tactile depth */
+/* Always pair with position: relative */
+.grain {
+  position: relative;
+  overflow: hidden;
+}
+
+.grain::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  opacity: 0.025;
+  pointer-events: none;
+  mix-blend-mode: multiply;
+  border-radius: inherit;
+  z-index: 1;
+}
+
+/* Surface-level grain (cream backgrounds need less) */
+.grain-surface::after {
+  opacity: 0.020;
+}
+
+/* Grain children need relative positioning to appear above grain overlay */
+.grain > * {
+  position: relative;
+  z-index: 2;
+}
+
+/* ─── Scroll Snap ──────────────────────────────────────────────────────── */
+/* Proximity-mode scroll-snap: only snaps when the user is already close to  */
+/* a section boundary. Tall sections (Problem, About) are not trapped.        */
+/* scroll-margin-top offsets the sticky nav (68px) so the snap target lands  */
+/* below the header, not behind it.                                           */
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-snap-type: y proximity;
+  }
+
+  main > section,
+  footer {
+    scroll-snap-align: start;
+    scroll-snap-stop: normal;
+    scroll-margin-top: 80px;
+  }
+}
+
+/* ─── Scroll-Triggered Reveal Base ────────────────────────────────────── */
+/* JS adds .is-visible class when element enters viewport */
+@media (prefers-reduced-motion: no-preference) {
+  .reveal {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity var(--duration-reveal) var(--ease-premium),
+                transform var(--duration-reveal) var(--ease-premium);
+  }
+
+  .reveal.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Stagger siblings — JS adds delay via CSS custom property */
+  .reveal-stagger {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity var(--duration-reveal) var(--ease-premium),
+                transform var(--duration-reveal) var(--ease-premium);
+    transition-delay: var(--stagger-delay, 0ms);
+  }
+
+  .reveal-stagger.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ─── Utility: Eyebrow Label ───────────────────────────────────────────── */
+.eyebrow {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-weight: 600;
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--color-text-secondary);
+}
+
+/* ─── Utility: Editorial Accent Type ──────────────────────────────────── */
+.editorial {
+  font-family: 'Instrument Serif', serif;
+  font-style: italic;
+}
+
+/* ─── Focus Visible (accessibility) ───────────────────────────────────── */
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+}
+
+/* ─── Selection Color ──────────────────────────────────────────────────── */
+::selection {
+  background-color: var(--color-accent-light);
+  color: var(--color-accent);
+}

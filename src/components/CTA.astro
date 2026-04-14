@@ -1,0 +1,59 @@
+---
+// CTA.astro
+// Final CTA. One headline, one subtext, one button, one trust line.
+// Copy verbatim from PROJECT.md. Resist filling space.
+const CALENDLY_URL = 'https://calendly.com/signalworks'; // TODO: replace with real Calendly link
+---
+
+<section
+  id="cta"
+  class="grain section-padding bg-background"
+  aria-label="Book the audit"
+>
+  <div class="container">
+
+    <!-- Asymmetric: content block offset left, breathing right -->
+    <div class="max-w-[880px]">
+
+      <!-- Headline — section headline scale, Cabinet Grotesk 700 -->
+      <h2
+        class="font-cabinet font-bold text-headline text-text-primary max-w-[22ch] mb-8 reveal"
+      >
+        If you're losing 10 hours a week to work that shouldn't require a human, the audit pays for itself.
+      </h2>
+
+      <!-- Subtext -->
+      <p
+        class="font-jakarta text-body-lg text-text-secondary max-w-[58ch] mb-10 reveal"
+      >
+        You get focused attention on your specific workflows,
+        a written summary of what's worth automating, and a prioritized roadmap.
+        If you decide not to move forward after that, you still have the roadmap.
+        No follow-up pitch.
+      </p>
+
+      <!-- Primary CTA -->
+      <div class="mb-10 reveal">
+        <a
+          href={CALENDLY_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="btn-primary"
+        >
+          Book the Audit
+        </a>
+      </div>
+
+      <!-- Thin rule separator -->
+      <hr class="border-0 border-t border-border max-w-[320px] mb-8" />
+
+      <!-- Trust signal — Instrument Serif italic -->
+      <p
+        class="editorial text-editorial text-text-primary max-w-[48ch] reveal"
+      >
+        The audit has a clear deliverable. If you don't walk away with at least three actionable opportunities, we'll refund it.
+      </p>
+
+    </div>
+  </div>
+</section>

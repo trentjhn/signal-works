@@ -1,0 +1,79 @@
+---
+// About.astro
+// Two founder bios — editorial stacked layout, NOT a card grid.
+// Copy verbatim from PROJECT.md. Do not rewrite bio copy.
+
+const founders = [
+  {
+    name: 'Trenton Johnson',
+    role: 'Builds the systems',
+    location: 'Oakland, CA',
+    body:
+      "Ex-PayPal PM. Yale CS. I've been building production AI systems since leaving PayPal — the kind that run in production, not the kind that sit on GitHub. SignalWorks is where that work gets applied to problems at a scale where a two-person team is the right team.",
+  },
+  {
+    name: 'Jahleel',
+    role: 'Makes sure it gets used',
+    location: null,
+    body:
+      "I handle the human side. I make sure what we build actually gets adopted, and I'm the person you call when something isn't working the way you expected. Most automation projects technically work but don't change anything because nobody in the business understands how to use them. That's what I'm here to prevent.",
+  },
+] as const;
+---
+
+<section
+  id="about"
+  class="grain grain-surface section-padding bg-surface"
+  aria-label="Who we are"
+>
+  <div class="container">
+
+    <!-- Section header — asymmetric 55/45 -->
+    <div class="grid grid-cols-1 lg:grid-cols-[55fr_45fr] gap-8 lg:gap-16 mb-16 lg:mb-20 items-end">
+      <div>
+        <p class="eyebrow mb-5 reveal">Who We Are</p>
+        <h2 class="font-cabinet font-bold text-headline text-text-primary reveal">
+          Two people.
+          <br />
+          One builds the systems,
+          <br />
+          one makes sure they actually get used.
+        </h2>
+      </div>
+    </div>
+
+    <!-- Founder bios — stacked editorial rows -->
+    <div class="flex flex-col">
+      {founders.map((f, i) => (
+        <article
+          class={`reveal grid grid-cols-1 lg:grid-cols-[280px_1fr] gap-8 lg:gap-16 py-12 lg:py-16 border-t border-border ${
+            i === founders.length - 1 ? 'border-b border-border' : ''
+          }`}
+        >
+          <!-- Left rail: name, role, location -->
+          <header class="flex flex-col gap-3">
+            <h3 class="font-cabinet font-bold text-subhead text-text-primary">
+              {f.name}
+            </h3>
+            <p class="font-jakarta text-label uppercase tracking-[0.08em] text-accent">
+              {f.role}
+            </p>
+            {f.location && (
+              <p class="font-jakarta text-label-sm uppercase tracking-[0.10em] text-text-secondary">
+                {f.location}
+              </p>
+            )}
+          </header>
+
+          <!-- Right: bio prose -->
+          <div class="max-w-[62ch]">
+            <p class="font-jakarta text-body text-text-secondary">
+              {f.body}
+            </p>
+          </div>
+        </article>
+      ))}
+    </div>
+
+  </div>
+</section>

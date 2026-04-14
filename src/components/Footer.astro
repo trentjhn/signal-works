@@ -1,0 +1,70 @@
+---
+// Footer.astro
+// Copy verbatim from PROJECT.md. Grain overlay.
+const CALENDLY_URL = 'https://calendly.com/signalworks'; // TODO: replace with real Calendly link
+const year = new Date().getFullYear();
+---
+
+<footer
+  class="grain bg-background border-t border-border"
+  aria-label="Site footer"
+>
+  <div class="container">
+    <div class="py-14 lg:py-20">
+
+      <!-- Upper row: brand + tagline / nav -->
+      <div class="grid grid-cols-1 lg:grid-cols-[1fr_auto] gap-10 lg:gap-16 items-start">
+
+        <!-- Brand block -->
+        <div>
+          <p class="font-cabinet font-bold text-subhead text-text-primary mb-3">
+            SignalWorks
+          </p>
+          <p class="editorial text-body-lg text-text-secondary max-w-[32ch]">
+            Automation that actually gets built.
+          </p>
+        </div>
+
+        <!-- Nav -->
+        <nav aria-label="Footer navigation">
+          <ul class="flex flex-col gap-3 list-none lg:text-right">
+            {[
+              { label: 'Process', href: '#process' },
+              { label: 'About', href: '#about' },
+              { label: 'Book an Audit', href: CALENDLY_URL, external: true },
+            ].map((link) => (
+              <li>
+                <a
+                  href={link.href}
+                  target={link.external ? '_blank' : undefined}
+                  rel={link.external ? 'noopener noreferrer' : undefined}
+                  class="font-jakarta font-semibold text-label uppercase tracking-[0.08em] text-text-secondary hover:text-text-primary transition-colors duration-[150ms]"
+                >
+                  {link.label}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </nav>
+
+      </div>
+
+      <!-- Thin rule -->
+      <hr class="border-0 border-t border-border-subtle my-10 lg:my-14" />
+
+      <!-- Lower row: contact + copyright -->
+      <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+        <a
+          href="mailto:hello@signal.works"
+          class="font-jakarta text-body text-text-secondary hover:text-text-primary transition-colors duration-[150ms]"
+        >
+          hello@signal.works
+        </a>
+        <p class="font-jakarta text-label-sm uppercase tracking-[0.10em] text-text-secondary">
+          © {year} SignalWorks. All rights reserved.
+        </p>
+      </div>
+
+    </div>
+  </div>
+</footer>

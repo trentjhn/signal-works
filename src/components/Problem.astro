@@ -1,0 +1,55 @@
+---
+// Problem.astro
+// Cream background section. Names the pain the target audience already feels.
+// Do not soften the copy — the directness is intentional and signals confidence.
+---
+
+<section
+  id="problem"
+  class="grain grain-surface section-padding bg-surface"
+  aria-label="The Problem"
+>
+  <div class="container">
+
+    <!-- Two-column editorial: 55/45 split on desktop, stacked on mobile -->
+    <div class="grid grid-cols-1 lg:grid-cols-[55fr_45fr] gap-12 lg:gap-16 items-start">
+
+      <!-- Left: headline block -->
+      <div>
+        <p class="eyebrow mb-5 reveal">The Problem</p>
+        <h2 class="font-cabinet font-bold text-headline text-text-primary mb-6 reveal">
+          You're subscribed to the tools.
+          <br />
+          The manual work didn't stop.
+        </h2>
+        <p class="font-jakarta text-body-lg text-text-secondary max-w-reading-lg reveal">
+          Most small businesses and agencies are paying employees to do things that could
+          run automatically — moving data between apps, following up on leads, summarizing
+          reports, updating CRMs. Not because the solutions don't exist. Because nobody on
+          your team has the time or background to connect the pieces. The AI tools are there.
+          The workflow is still broken.
+        </p>
+      </div>
+
+      <!-- Right: pain point callouts -->
+      <!-- Editorial rows, NOT a card grid — see DESIGN.md Don'ts -->
+      <div class="flex flex-col gap-0 pt-0 lg:pt-[72px]" data-stagger-group>
+        {[
+          'Client reporting that takes hours to compile',
+          'Follow-up emails that fall through the cracks',
+          'Staff copy-pasting between tools every morning',
+          'Proposals built from scratch every time',
+        ].map((item, i) => (
+          <div
+            class="reveal-stagger flex items-start gap-4 py-5 border-b border-border-subtle first:border-t first:border-border-subtle"
+          >
+            <!-- Minimal accent marker -->
+            <span class="mt-1.5 flex-shrink-0 w-1.5 h-1.5 rounded-full bg-accent opacity-60" aria-hidden="true" />
+            <p class="font-jakarta text-body text-text-secondary">{item}</p>
+          </div>
+        ))}
+      </div>
+
+    </div>
+  </div>
+</section>
