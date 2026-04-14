@@ -2,17 +2,32 @@
 // Problem.astro
 // Cream background section. Names the pain the target audience already feels.
 // Do not soften the copy — the directness is intentional and signals confidence.
+//
+// Icons: hand-rolled abstract geometric marks. NOT pictographic.
+// Each callout uses a distinct silhouette so the set reads as varied, not as
+// a matched feature grid.
+//   1. Compile  — three stacked horizontal rules (strata / report rows)
+//   2. Crack    — broken horizontal line with a diagonal strike through the gap
+//   3. Duplicate— two offset rectangles (copy-paste metaphor)
+//   4. Unclosed — nearly-full arc with a small gap at the origin (cycle that never closes)
+
+const pains = [
+  { icon: 'compile',  text: 'Client reporting that takes hours to compile' },
+  { icon: 'crack',    text: 'Follow-up emails that fall through the cracks' },
+  { icon: 'duplicate',text: 'Staff copy-pasting between tools every morning' },
+  { icon: 'unclosed', text: 'Proposals built from scratch every time' },
+] as const;
 ---
 
 <section
   id="problem"
-  class="grain grain-surface section-padding bg-surface"
+  class="section bg-surface"
   aria-label="The Problem"
 >
-  <div class="container">
+  <div class="container h-full flex flex-col justify-center">
 
     <!-- Two-column editorial: 55/45 split on desktop, stacked on mobile -->
-    <div class="grid grid-cols-1 lg:grid-cols-[55fr_45fr] gap-12 lg:gap-16 items-start">
+    <div class="grid grid-cols-1 lg:grid-cols-[55fr_45fr] gap-12 lg:gap-14 items-start">
 
       <!-- Left: headline block -->
       <div>
@@ -31,24 +46,48 @@
         </p>
       </div>
 
-      <!-- Right: pain point callouts -->
-      <!-- Editorial rows, NOT a card grid — see DESIGN.md Don'ts -->
-      <div class="flex flex-col gap-0 pt-0 lg:pt-[72px]" data-stagger-group>
-        {[
-          'Client reporting that takes hours to compile',
-          'Follow-up emails that fall through the cracks',
-          'Staff copy-pasting between tools every morning',
-          'Proposals built from scratch every time',
-        ].map((item, i) => (
-          <div
-            class="reveal-stagger flex items-start gap-4 py-5 border-b border-border-subtle first:border-t first:border-border-subtle"
+      <!-- Right: pain point callouts — editorial rows, NOT a card grid -->
+      <ul class="flex flex-col gap-0 list-none lg:pt-12" data-stagger-group>
+        {pains.map((p, i) => (
+          <li
+            class={`reveal-stagger flex items-start gap-5 py-4 border-b border-border-subtle ${
+              i === 0 ? 'border-t border-border-subtle' : ''
+            }`}
           >
-            <!-- Minimal accent marker -->
-            <span class="mt-1.5 flex-shrink-0 w-1.5 h-1.5 rounded-full bg-accent opacity-60" aria-hidden="true" />
-            <p class="font-jakarta text-body text-text-secondary">{item}</p>
-          </div>
+            <span
+              class="flex-shrink-0 mt-[3px] text-text-secondary"
+              aria-hidden="true"
+            >
+              {p.icon === 'compile' && (
+                <svg viewBox="0 0 20 20" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round">
+                  <path d="M3 6 h14" />
+                  <path d="M3 10 h10" />
+                  <path d="M3 14 h12" />
+                </svg>
+              )}
+              {p.icon === 'crack' && (
+                <svg viewBox="0 0 20 20" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round">
+                  <path d="M3 10 h5" />
+                  <path d="M12 10 h5" />
+                  <path d="M9 6 L11 14" />
+                </svg>
+              )}
+              {p.icon === 'duplicate' && (
+                <svg viewBox="0 0 20 20" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linejoin="round">
+                  <rect x="3" y="3" width="11" height="11" rx="1" />
+                  <rect x="6" y="6" width="11" height="11" rx="1" />
+                </svg>
+              )}
+              {p.icon === 'unclosed' && (
+                <svg viewBox="0 0 20 20" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.25" stroke-linecap="round">
+                  <path d="M10 4 A6 6 0 1 1 6 5" />
+                </svg>
+              )}
+            </span>
+            <p class="font-jakarta text-body text-text-secondary leading-snug">{p.text}</p>
+          </li>
         ))}
-      </div>
+      </ul>
 
     </div>
   </div>
