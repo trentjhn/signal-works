@@ -152,8 +152,8 @@ a {
 /* doing the breathing-room work, padding only guarantees edge clearance.        */
 .section {
   position: relative;
-  min-height: 100svh;
-  min-height: 100dvh;
+  min-height: 100vh;   /* fallback for older Safari */
+  min-height: 100svh;  /* stable small-viewport height — does not shift as mobile URL bar hides */
   padding: var(--fold-pad) 0;
   display: flex;
   flex-direction: column;
@@ -227,9 +227,12 @@ main > .section:first-child {
 }
 
 /* ─── Utility: Editorial Accent Type ──────────────────────────────────── */
+/* Instrument Serif italic optically overlaps itself at larger sizes — a     */
+/* small positive tracking restores breathing without affecting Roman copy.  */
 .editorial {
   font-family: 'Instrument Serif', serif;
   font-style: italic;
+  letter-spacing: 0.006em;
 }
 
 /* ─── Focus Visible (accessibility) ───────────────────────────────────── */
@@ -311,9 +314,10 @@ main > .section:first-child {
   }
 
   /* Disable reveal-system animations inside the fold deck — the fold IS the  */
-  /* reveal. Keeping both creates double-motion which reads as amateurish.    */
-  html.fold-active main.fold-deck .reveal,
-  html.fold-active main.fold-deck .reveal-stagger {
+  /* reveal for sections 2+. Scoped to :not(:first-child) so Hero still runs  */
+  /* its own load-in staggered reveal on first paint.                         */
+  html.fold-active main.fold-deck > section:not(:first-child) .reveal,
+  html.fold-active main.fold-deck > section:not(:first-child) .reveal-stagger {
     opacity: 1 !important;
     transform: none !important;
     transition: none !important;
