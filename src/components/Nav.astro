@@ -1,6 +1,6 @@
 ---
 // Nav.astro
-// Sticky navigation. Adds border-bottom on scroll (no blur — see DESIGN.md).
+// Sticky navigation. Adds border-bottom on scroll (no blur.see DESIGN.md).
 // CTA links to Calendly. Replace CALENDLY_URL with actual link before deploying.
 const CALENDLY_URL = 'https://calendly.com/signalworks'; // TODO: replace with real Calendly link
 ---
@@ -12,44 +12,49 @@ const CALENDLY_URL = 'https://calendly.com/signalworks'; // TODO: replace with r
   <div class="container">
     <nav class="flex items-center justify-between h-[60px] md:h-[68px]">
 
-      <!-- Logo -->
+      <!-- Logo.brand weight. 24px font-extrabold reads as presence     -->
+      <!-- without dominating the 68px rail.                               -->
       <a
         href="/"
-        class="font-cabinet font-bold text-[20px] text-text-primary tracking-tight hover:text-accent transition-colors duration-[150ms]"
+        class="font-cabinet font-extrabold text-[22px] md:text-[24px] text-text-primary tracking-[-0.01em] hover:text-accent transition-colors duration-[150ms]"
         aria-label="SignalWorks home"
       >
         SignalWorks.
       </a>
 
-      <!-- Desktop nav links -->
-      <ul class="hidden md:flex items-center gap-8 list-none">
-        {(['Process', 'About'] as const).map((item) => (
-          <li>
-            <a
-              href={`#${item.toLowerCase()}`}
-              class="font-jakarta font-semibold text-label uppercase tracking-[0.08em] text-text-secondary hover:text-text-primary transition-colors duration-[150ms]"
-            >
-              {item}
-            </a>
-          </li>
-        ))}
-      </ul>
+      <!-- Right cluster: nav links + CTA grouped together. -->
+      <div class="hidden md:flex items-center gap-10">
+        <ul class="flex items-center gap-8 list-none">
+          {([
+            { label: 'Process', href: '#process-1' },
+            { label: 'About', href: '#about' },
+          ] as const).map((item) => (
+            <li>
+              <a
+                href={item.href}
+                class="font-jakarta font-semibold text-label uppercase tracking-[0.08em] text-text-secondary hover:text-text-primary transition-colors duration-[150ms]"
+              >
+                {item.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+        <a
+          href={CALENDLY_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="btn-primary-sm"
+        >
+          Book the Audit
+        </a>
+      </div>
 
-      <!-- CTA -->
-      <a
-        href={CALENDLY_URL}
-        target="_blank"
-        rel="noopener noreferrer"
-        class="hidden md:inline-flex btn-primary-sm"
-      >
-        Book a Workflow Audit
-      </a>
-
-      <!-- Mobile hamburger (implement toggle in script below) -->
+      <!-- Mobile hamburger (toggle script below). -->
       <button
         id="mobile-menu-toggle"
-        class="md:hidden flex flex-col gap-1.5 p-2 -mr-2"
-        aria-label="Toggle menu"
+        type="button"
+        class="md:hidden flex flex-col gap-1.5 p-2 -mr-2 focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent focus-visible:outline-offset-[3px] rounded-btn"
+        aria-label="Open menu"
         aria-expanded="false"
         aria-controls="mobile-menu"
       >
@@ -61,20 +66,24 @@ const CALENDLY_URL = 'https://calendly.com/signalworks'; // TODO: replace with r
   </div>
 </header>
 
-<!-- Mobile menu overlay -->
+<!-- Mobile menu overlay. `inert` keeps focus out when closed. -->
 <div
   id="mobile-menu"
   class="fixed inset-0 bg-background z-40 flex flex-col items-center justify-center gap-8 opacity-0 pointer-events-none transition-opacity duration-200"
   aria-hidden="true"
+  inert
 >
   <ul class="flex flex-col items-center gap-6 list-none">
-    {(['Process', 'About'] as const).map((item) => (
+    {([
+      { label: 'Process', href: '#process-1' },
+      { label: 'About', href: '#about' },
+    ] as const).map((item) => (
       <li>
         <a
-          href={`#${item.toLowerCase()}`}
+          href={item.href}
           class="font-cabinet font-bold text-[clamp(32px,6vw,48px)] text-text-primary hover:text-accent transition-colors duration-[150ms] mobile-nav-link"
         >
-          {item}
+          {item.label}
         </a>
       </li>
     ))}
@@ -85,7 +94,7 @@ const CALENDLY_URL = 'https://calendly.com/signalworks'; // TODO: replace with r
     rel="noopener noreferrer"
     class="btn-primary mobile-nav-link"
   >
-    Book a Workflow Audit
+    Book the Audit
   </a>
 </div>
 
@@ -99,13 +108,19 @@ const CALENDLY_URL = 'https://calendly.com/signalworks'; // TODO: replace with r
   const mobileLinks = document.querySelectorAll('.mobile-nav-link');
   let menuOpen = false;
 
-  // Scroll border
+  // Scroll border. rAF-throttled so the class toggle fires at most once per frame.
+  let scrollTicking = false;
   window.addEventListener('scroll', () => {
-    if (window.scrollY > 80) {
-      nav?.classList.add('border-b', 'border-border');
-    } else {
-      nav?.classList.remove('border-b', 'border-border');
-    }
+    if (scrollTicking) return;
+    scrollTicking = true;
+    requestAnimationFrame(() => {
+      if (window.scrollY > 80) {
+        nav?.classList.add('border-b', 'border-border');
+      } else {
+        nav?.classList.remove('border-b', 'border-border');
+      }
+      scrollTicking = false;
+    });
   }, { passive: true });
 
   // Mobile toggle
@@ -115,7 +130,13 @@ const CALENDLY_URL = 'https://calendly.com/signalworks'; // TODO: replace with r
     mobileMenu.style.opacity = open ? '1' : '0';
     mobileMenu.style.pointerEvents = open ? 'auto' : 'none';
     mobileMenu.setAttribute('aria-hidden', String(!open));
+    if (open) {
+      mobileMenu.removeAttribute('inert');
+    } else {
+      mobileMenu.setAttribute('inert', '');
+    }
     toggle.setAttribute('aria-expanded', String(open));
+    toggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
     document.body.style.overflow = open ? 'hidden' : '';
 
     // Animate bars
@@ -124,8 +145,21 @@ const CALENDLY_URL = 'https://calendly.com/signalworks'; // TODO: replace with r
       bar2.style.opacity = open ? '0' : '1';
       bar3.style.transform = open ? 'translateY(-8px) rotate(-45deg)' : '';
     }
+
+    // Return focus to the toggle when closing, so keyboard users land somewhere
+    // predictable instead of being dropped at document start.
+    if (!open) {
+      (toggle as HTMLButtonElement).focus();
+    }
   }
 
   toggle?.addEventListener('click', () => toggleMenu(!menuOpen));
   mobileLinks.forEach(link => link.addEventListener('click', () => toggleMenu(false)));
+
+  // Escape closes the mobile menu when open.
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape' && menuOpen) {
+      toggleMenu(false);
+    }
+  });
 </script>
