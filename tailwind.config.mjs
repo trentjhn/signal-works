@@ -28,8 +28,8 @@ export default {
       },
       fontSize: {
         // clamp values for fluid typography — matches DESIGN.md
-        'display':  ['clamp(64px, 8vw, 120px)', { lineHeight: '0.95', letterSpacing: '-0.04em' }],
-        'headline': ['clamp(32px, 4vw, 52px)',  { lineHeight: '1.1',  letterSpacing: '-0.03em' }],
+        'display':  ['clamp(64px, 8vw, 120px)', { lineHeight: '0.96', letterSpacing: '-0.02em' }],
+        'headline': ['clamp(32px, 4vw, 52px)',  { lineHeight: '1.08', letterSpacing: '-0.02em' }],
         'subhead':  ['clamp(20px, 2.5vw, 28px)',{ lineHeight: '1.25', letterSpacing: '-0.02em' }],
         'body-lg':  ['clamp(18px, 1.6vw, 22px)',{ lineHeight: '1.6' }],
         'body':     ['clamp(16px, 1.2vw, 18px)',{ lineHeight: '1.65' }],

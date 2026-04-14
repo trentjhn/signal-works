@@ -28,9 +28,9 @@ SignalWorks presents as a boutique strategy firm that happens to be built on AI 
 
 All fonts load from Google Fonts or Fontshare. Load order: Cabinet Grotesk, Plus Jakarta Sans, Instrument Serif.
 
-- **Display**: Cabinet Grotesk, weights 700 + 800, size: clamp(64px, 8vw, 120px), tracking: `-0.04em`, line-height: `0.95`. Usage: hero headline, single above-the-fold statement, section anchors with maximum visual weight. Never more than 2 lines at this scale.
+- **Display**: Cabinet Grotesk, weights 700 + 800, size: clamp(64px, 8vw, 120px), tracking: `-0.02em`, line-height: `0.96`. Usage: hero headline, single above-the-fold statement, section anchors with maximum visual weight. Never more than 2 lines at this scale. (Tracking relaxed from `-0.04em` on 2026-04-14 after optical review — Cabinet Grotesk 800 collides characters at `-0.04em` past 96px.)
 
-- **Headline**: Cabinet Grotesk, weight 600, size: clamp(32px, 4vw, 52px), tracking: `-0.03em`, line-height: `1.1`. Usage: section headers, service names, case study titles. Use regularly throughout the page.
+- **Headline**: Cabinet Grotesk, weight 600, size: clamp(32px, 4vw, 52px), tracking: `-0.02em`, line-height: `1.08`. Usage: section headers, service names, case study titles. Use regularly throughout the page.
 
 - **Subheading**: Cabinet Grotesk, weight 500, size: clamp(20px, 2.5vw, 28px), tracking: `-0.02em`, line-height: `1.25`. Usage: supporting context beneath headlines, second-level hierarchy within sections.
 
@@ -231,7 +231,7 @@ Run this before finalizing any section, component, or copy block.
 
 ### Typography Fingerprints
 - [ ] No Inter, Roboto, Open Sans, Lato, or Montserrat anywhere in the stack
-- [ ] Headlines use tight tracking (`-0.03em` to `-0.05em`) — not default 0
+- [ ] Headlines use tight tracking (`-0.02em` to `-0.03em`) — not default 0, not so tight characters collide
 - [ ] No gradient text (`background-clip: text` pattern)
 - [ ] Display type is at least `64px` on desktop — not a timid `40px` that calls itself a hero
 - [ ] Instrument Serif appears in fewer places than Cabinet Grotesk (it's an accent, not a workhorse)
