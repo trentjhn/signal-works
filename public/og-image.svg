@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
+  <!-- Background: brand cream -->
+  <rect width="1200" height="630" fill="#FAFAF8"/>
+
+  <!-- Subtle frame inset -->
+  <rect x="64" y="64" width="1072" height="502" fill="none" stroke="#DDD5C0" stroke-width="1"/>
+
+  <!-- Eyebrow -->
+  <text x="112" y="170"
+        font-family="'Helvetica Neue', Helvetica, Arial, sans-serif"
+        font-size="22"
+        font-weight="600"
+        letter-spacing="3"
+        fill="#6B6355">SIGNALWORKS</text>
+
+  <!-- Short accent rule under eyebrow -->
+  <line x1="112" y1="195" x2="200" y2="195" stroke="#1B2B4B" stroke-width="2"/>
+
+  <!-- Headline wordmark -->
+  <text x="112" y="360"
+        font-family="'Helvetica Neue', Helvetica, Arial, sans-serif"
+        font-size="88"
+        font-weight="800"
+        letter-spacing="-2"
+        fill="#1C1B19">Automation that</text>
+  <text x="112" y="460"
+        font-family="'Helvetica Neue', Helvetica, Arial, sans-serif"
+        font-size="88"
+        font-weight="800"
+        letter-spacing="-2"
+        fill="#1C1B19">actually gets built.</text>
+
+  <!-- Footer row: domain + short tagline -->
+  <text x="112" y="545"
+        font-family="'Helvetica Neue', Helvetica, Arial, sans-serif"
+        font-size="20"
+        font-weight="500"
+        letter-spacing="1.5"
+        fill="#6B6355">signalworks.live</text>
+
+  <text x="1088" y="545"
+        font-family="Georgia, 'Times New Roman', serif"
+        font-style="italic"
+        font-size="22"
+        fill="#1C1B19"
+        text-anchor="end">AI, engineered.</text>
+</svg>
