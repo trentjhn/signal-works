@@ -1,21 +1,22 @@
 ---
 // About.astro
-// Two founder bios.editorial stacked layout, NOT a card grid.
-// Copy verbatim from PROJECT.md. Do not rewrite bio copy.
+// Two founder bios in an editorial stacked layout.
+// Both founders framed as builders. Role labels intentionally absent; the
+// bios carry the distinction. Section headline leads on AI-native capability
+// rather than headcount.
 
 const founders = [
   {
     name: 'Trenton Johnson',
-    role: 'Builds the systems',
+    location: null,
     body:
-      "Ex-PayPal PM. Yale CS. I've been building production AI systems since leaving PayPal. The kind that run in production, not the kind that sit on GitHub. SignalWorks is where that work gets applied to problems at a scale where a two-person team is the right team.",
+      "Former Product Manager at PayPal. Yale Computer Science. I left PayPal to build AI systems that run in production. That's still the bar: systems a business can depend on from day one, built for real use, real data, and real teams.",
   },
   {
     name: 'Jahleel Heath',
-    role: 'Makes sure it gets used',
     location: null,
     body:
-      "I handle the human side. I make sure what we build actually gets adopted, and I'm the person you call when something isn't working the way you expected. Most automation projects technically work but don't change anything because nobody in the business understands how to use them. That's what I'm here to prevent.",
+      "Los Angeles-based entrepreneur and product builder. Years of AI implementation and application development. I find where AI actually creates value inside a business, then build the systems that make it real.",
   },
 ] as const;
 ---
@@ -27,18 +28,19 @@ const founders = [
 >
   <div class="container">
 
-    <!-- Section header.asymmetric 55/45 -->
-    <div class="grid grid-cols-1 lg:grid-cols-[55fr_45fr] gap-8 lg:gap-16 mb-16 lg:mb-20 items-end">
-      <div>
-        <p class="eyebrow mb-5 reveal">Who We Are</p>
-        <h2 class="font-cabinet font-bold text-headline text-text-primary reveal">
-          Two people.
-          <br />
-          One builds the systems,
-          <br />
-          one makes sure they actually get used.
-        </h2>
-      </div>
+    {/* Section boundary. Process II and About share bg-surface, so a quiet
+        full-container rule at the top of About prevents the two sections
+        from reading as one continuous block. */}
+    <hr class="border-0 border-t border-border mb-20 lg:mb-24 reveal" />
+
+    <!-- Section header. Single column, left-aligned. -->
+    <div class="mb-16 lg:mb-20 max-w-[920px]">
+      <p class="eyebrow mb-5 reveal">Who We Are</p>
+      <h2 class="font-cabinet font-bold text-headline text-text-primary reveal">
+        We live inside the AI stack
+        <br />
+        so your team doesn't have to.
+      </h2>
     </div>
 
     <!-- Founder bios.stacked editorial rows -->
@@ -49,14 +51,11 @@ const founders = [
             i === founders.length - 1 ? 'border-b border-border' : ''
           }`}
         >
-          <!-- Left rail: name, role, location -->
+          <!-- Left rail: name only. Role labels dropped; bios speak for themselves. -->
           <header class="flex flex-col gap-3">
             <h3 class="font-cabinet font-bold text-subhead text-text-primary">
               {f.name}
             </h3>
-            <p class="font-jakarta text-label uppercase tracking-[0.08em] text-accent">
-              {f.role}
-            </p>
             {f.location && (
               <p class="font-jakarta text-label-sm uppercase tracking-[0.10em] text-text-secondary">
                 {f.location}
