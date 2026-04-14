@@ -28,7 +28,7 @@ export default {
       },
       fontSize: {
         // clamp values for fluid typography. Matches DESIGN.md.
-        'display':  ['clamp(64px, 9vw, 144px)', { lineHeight: '1.0',  letterSpacing: '-0.02em' }],
+        'display':  ['clamp(56px, 8vw, 112px)',  { lineHeight: '1.04', letterSpacing: '-0.02em' }],
         'headline': ['clamp(32px, 4vw, 52px)',  { lineHeight: '1.08', letterSpacing: '-0.02em' }],
         'subhead':  ['clamp(20px, 2.5vw, 28px)',{ lineHeight: '1.25', letterSpacing: '-0.02em' }],
         'body-lg':  ['clamp(18px, 1.6vw, 22px)',{ lineHeight: '1.6' }],
