@@ -1,18 +1,17 @@
 ---
 // About.astro
-// Two founder bios — editorial stacked layout, NOT a card grid.
+// Two founder bios.editorial stacked layout, NOT a card grid.
 // Copy verbatim from PROJECT.md. Do not rewrite bio copy.
 
 const founders = [
   {
     name: 'Trenton Johnson',
     role: 'Builds the systems',
-    location: 'Oakland, CA',
     body:
-      "Ex-PayPal PM. Yale CS. I've been building production AI systems since leaving PayPal — the kind that run in production, not the kind that sit on GitHub. SignalWorks is where that work gets applied to problems at a scale where a two-person team is the right team.",
+      "Ex-PayPal PM. Yale CS. I've been building production AI systems since leaving PayPal. The kind that run in production, not the kind that sit on GitHub. SignalWorks is where that work gets applied to problems at a scale where a two-person team is the right team.",
   },
   {
-    name: 'Jahleel',
+    name: 'Jahleel Heath',
     role: 'Makes sure it gets used',
     location: null,
     body:
@@ -28,7 +27,7 @@ const founders = [
 >
   <div class="container">
 
-    <!-- Section header — asymmetric 55/45 -->
+    <!-- Section header.asymmetric 55/45 -->
     <div class="grid grid-cols-1 lg:grid-cols-[55fr_45fr] gap-8 lg:gap-16 mb-16 lg:mb-20 items-end">
       <div>
         <p class="eyebrow mb-5 reveal">Who We Are</p>
@@ -42,7 +41,7 @@ const founders = [
       </div>
     </div>
 
-    <!-- Founder bios — stacked editorial rows -->
+    <!-- Founder bios.stacked editorial rows -->
     <div class="flex flex-col">
       {founders.map((f, i) => (
         <article

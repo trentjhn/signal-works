@@ -12,12 +12,12 @@ This project requires Opus-class reasoning for design decisions, copy refinement
 ## Stack
 - Framework: Astro 4
 - Styling: Tailwind CSS (tokens from DESIGN.md are in tailwind.config.mjs)
-- Animation: Motion (framer-motion) for component animations, GSAP ScrollTrigger for scroll-driven reveals
-- No component library — build from scratch following DESIGN.md
+- Animation: IntersectionObserver + CSS transitions for scroll-driven reveals. No animation libraries in the stack (earlier drafts used Motion and GSAP ScrollTrigger; both were removed after the hinge-fold kill).
+- No component library. Build from scratch following DESIGN.md.
 
 ## Code Standards
 - TypeScript over JavaScript
-- Tailwind classes only — no inline styles
+- Tailwind classes only, no inline styles
 - CSS custom properties for design tokens (match DESIGN.md values exactly)
 - No `any` types
 - Component files: PascalCase. Utilities: camelCase.

@@ -1,15 +1,15 @@
 ---
 // Problem.astro
 // Cream background section. Names the pain the target audience already feels.
-// Do not soften the copy — the directness is intentional and signals confidence.
+// Do not soften the copy.the directness is intentional and signals confidence.
 //
 // Icons: hand-rolled abstract geometric marks. NOT pictographic.
 // Each callout uses a distinct silhouette so the set reads as varied, not as
 // a matched feature grid.
-//   1. Compile  — three stacked horizontal rules (strata / report rows)
-//   2. Crack    — broken horizontal line with a diagonal strike through the gap
-//   3. Duplicate— two offset rectangles (copy-paste metaphor)
-//   4. Unclosed — nearly-full arc with a small gap at the origin (cycle that never closes)
+//   1. Compile .three stacked horizontal rules (strata / report rows)
+//   2. Crack   .broken horizontal line with a diagonal strike through the gap
+//   3. Duplicate. Two offset rectangles (copy-paste metaphor)
+//   4. Unclosed.nearly-full arc with a small gap at the origin (cycle that never closes)
 
 const pains = [
   { icon: 'compile',  text: 'Client reporting that takes hours to compile' },
@@ -24,7 +24,7 @@ const pains = [
   class="section bg-surface"
   aria-label="The Problem"
 >
-  <div class="container h-full flex flex-col justify-center">
+  <div class="container">
 
     <!-- Two-column editorial: 55/45 split on desktop, stacked on mobile -->
     <div class="grid grid-cols-1 lg:grid-cols-[55fr_45fr] gap-12 lg:gap-14 items-start">
@@ -39,14 +39,14 @@ const pains = [
         </h2>
         <p class="font-jakarta text-body-lg text-text-secondary max-w-reading-lg reveal">
           Most small businesses and agencies are paying employees to do things that could
-          run automatically — moving data between apps, following up on leads, summarizing
+          run automatically: moving data between apps, following up on leads, summarizing
           reports, updating CRMs. Not because the solutions don't exist. Because nobody on
           your team has the time or background to connect the pieces. The AI tools are there.
           The workflow is still broken.
         </p>
       </div>
 
-      <!-- Right: pain point callouts — editorial rows, NOT a card grid -->
+      <!-- Right: pain point callouts.editorial rows, NOT a card grid -->
       <ul class="flex flex-col gap-0 list-none lg:pt-12" data-stagger-group>
         {pains.map((p, i) => (
           <li
