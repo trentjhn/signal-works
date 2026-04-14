@@ -49,10 +49,13 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     <div class="page-grain" aria-hidden="true"></div>
     <slot />
 
-    <!-- IntersectionObserver reveal: fades content in as it enters view. -->
+    <!-- IntersectionObserver reveal: fades content in as it enters view.
+         Also observes .stroke-reveal for the clip-path numeral wipe. -->
     <script>
       document.addEventListener('DOMContentLoaded', () => {
-        const revealElements = document.querySelectorAll('.reveal, .reveal-stagger');
+        const revealElements = document.querySelectorAll(
+          '.reveal, .reveal-stagger, .stroke-reveal'
+        );
         if (revealElements.length === 0) return;
 
         document.querySelectorAll('[data-stagger-group]').forEach((group) => {

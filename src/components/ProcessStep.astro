@@ -33,19 +33,23 @@ const sectionLabel = `Process, Step ${stepWord}: ${title}`;
 
     <div class="max-w-[720px]">
 
-      <!-- Eyebrow row with inline serif numeral as a quiet mark. -->
-      <div
-        class="flex items-baseline gap-3 mb-6 reveal-stagger"
-        style="--stagger-delay: 0ms"
-      >
+      <!-- Eyebrow row with inline serif numeral. The numeral reveals via a
+           bottom-up clip-path wipe so the glyph reads as being drawn in,
+           rather than fading in. Paired with the eyebrow fade. -->
+      <div class="flex items-baseline gap-3 mb-6">
         <span
-          class="editorial text-accent leading-none"
-          style="font-size: 26px;"
+          class="editorial text-accent leading-none stroke-reveal"
+          style="font-size: 26px; --stroke-delay: 120ms"
           aria-hidden="true"
         >
           {numeral}
         </span>
-        <span class="eyebrow">Step {stepWord} · How It Works</span>
+        <span
+          class="eyebrow reveal-stagger"
+          style="--stagger-delay: 0ms"
+        >
+          Step {stepWord} · How It Works
+        </span>
       </div>
 
       <h2

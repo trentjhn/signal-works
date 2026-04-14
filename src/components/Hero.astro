@@ -4,7 +4,13 @@
 // Layout: single strong left-aligned editorial block. Whitespace on the right
 // is intentional. The headline carries the section. No stat panel, no images.
 // PayPal stats live in About, not here.
-const CALENDLY_URL = 'https://calendly.com/signalworks'; // TODO: replace with real Calendly link
+//
+// Headline motion: each word is its own reveal-stagger span so the headline
+// cascades in word-by-word rather than as a single block. 40ms per word.
+import { CALENDLY_URL } from '@config/links';
+
+const headline = "We build the workflows you wish your AI tools did on their own.";
+const headlineWords = headline.split(' ');
 ---
 
 <section
@@ -17,10 +23,16 @@ const CALENDLY_URL = 'https://calendly.com/signalworks'; // TODO: replace with r
     <div class="max-w-[1040px]">
 
       <h1
-        class="font-cabinet font-bold text-display text-text-primary mb-8 reveal-stagger"
-        style="--stagger-delay: 0ms;"
+        class="font-cabinet font-bold text-display text-text-primary mb-8"
       >
-        We build the workflows you wish your AI tools did on their own.
+        {headlineWords.map((word, i) => (
+          <Fragment>
+            <span
+              class="reveal-stagger inline-block"
+              style={`--stagger-delay: ${i * 40}ms`}
+            >{word}</span>{i < headlineWords.length - 1 ? ' ' : ''}
+          </Fragment>
+        ))}
       </h1>
 
       <p

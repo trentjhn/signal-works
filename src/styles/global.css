@@ -12,9 +12,11 @@
 
 /* ─── Component classes (reusable, replaces repeated class strings) ────── */
 @layer components {
-  /* Primary button.matches DESIGN.md Button (primary) spec */
+  /* Primary button.matches DESIGN.md Button (primary) spec.
+     Trailing arrow reveals on hover/focus via ::after pseudo-element.
+     Arrow space is reserved at all times so the button doesn't reflow. */
   .btn-primary {
-    @apply inline-flex items-center h-12 px-7
+    @apply relative inline-flex items-center h-12 pl-7 pr-12
            bg-accent text-background
            font-jakarta font-semibold text-label uppercase tracking-[0.08em]
            rounded-btn
@@ -23,13 +25,53 @@
            focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent focus-visible:outline-offset-[3px];
   }
   .btn-primary-sm {
-    @apply inline-flex items-center h-10 px-7
+    @apply relative inline-flex items-center h-10 pl-7 pr-11
            bg-accent text-background
            font-jakarta font-semibold text-label uppercase tracking-[0.08em]
            rounded-btn
            transition-colors duration-[150ms]
            hover:bg-accent-hover active:bg-accent-active
            focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent focus-visible:outline-offset-[3px];
+  }
+
+  /* Trailing arrow glyph. Positioned absolutely within the reserved right
+     padding so the button width is stable whether the arrow is visible or
+     not. Opacity always animates. Translation is gated on reduced-motion. */
+  .btn-primary::after,
+  .btn-primary-sm::after {
+    content: '\2192'; /* right arrow, rendered as Unicode to avoid em dash */
+    position: absolute;
+    right: 1.5rem;
+    top: 50%;
+    transform: translateY(-50%);
+    opacity: 0;
+    font-weight: 400;
+    font-size: 1.1em;
+    letter-spacing: 0;
+    transition: opacity 200ms var(--ease-premium);
+  }
+  .btn-primary-sm::after {
+    right: 1.25rem;
+  }
+  .btn-primary:hover::after,
+  .btn-primary:focus-visible::after,
+  .btn-primary-sm:hover::after,
+  .btn-primary-sm:focus-visible::after {
+    opacity: 1;
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .btn-primary::after,
+    .btn-primary-sm::after {
+      transform: translate(-4px, -50%);
+      transition: opacity 200ms var(--ease-premium),
+                  transform 200ms var(--ease-premium);
+    }
+    .btn-primary:hover::after,
+    .btn-primary:focus-visible::after,
+    .btn-primary-sm:hover::after,
+    .btn-primary-sm:focus-visible::after {
+      transform: translate(0, -50%);
+    }
   }
 
   /* Skip-to-content link.visually hidden until keyboard-focused */
@@ -171,15 +213,31 @@ main > .section:first-child {
 /* ─── Body-level grain overlay ─────────────────────────────────────────── */
 /* Single fixed layer. Lives outside the 3D perspective chain, so it is          */
 /* unaffected by section folds. Pointer-events off.never intercepts clicks.    */
+/* Drifts imperceptibly over 40s so the page never looks frozen. Gated on      */
+/* reduced-motion so users opting out get a static layer.                      */
 .page-grain {
   position: fixed;
-  inset: 0;
+  inset: -12px;
   pointer-events: none;
   z-index: 150;
   /* Single global value.slightly below the 0.025 spec on #FAFAF8 to avoid  */
   /* reading too hot on the surface #F0EAD8 folds. Documented in DESIGN.md.  */
   opacity: 0.022;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  will-change: transform;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .page-grain {
+    animation: grain-drift 40s linear infinite;
+  }
+  @keyframes grain-drift {
+    0%   { transform: translate(0, 0); }
+    25%  { transform: translate(-6px, -4px); }
+    50%  { transform: translate(-8px, -7px); }
+    75%  { transform: translate(-3px, -8px); }
+    100% { transform: translate(0, 0); }
+  }
 }
 
 /* ─── Scroll-Triggered Reveal Base (mobile + desktop non-fold path) ────── */
@@ -204,6 +262,18 @@ main > .section:first-child {
   .reveal-stagger.is-visible {
     opacity: 1;
     transform: translateY(0);
+  }
+
+  /* Stroke-reveal. Clip-path wipe from bottom to top so the element reads */
+  /* as being drawn in. Used on serif numerals in ProcessStep.             */
+  .stroke-reveal {
+    display: inline-block;
+    clip-path: inset(100% 0 0 0);
+    transition: clip-path 760ms cubic-bezier(0.65, 0, 0.35, 1);
+    transition-delay: var(--stroke-delay, 0ms);
+  }
+  .stroke-reveal.is-visible {
+    clip-path: inset(0% 0 0 0);
   }
 }
 
