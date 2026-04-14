@@ -80,6 +80,6 @@ After all sections are complete, run the entire fingerprint checklist against th
 
 ## Deployment
 - Deploy to Vercel
-- Domain: signal.works (or signalworks.co as fallback)
+- Domain: signalworks.live
 - Run `npm run build` and verify zero errors before deploying
 - Check Core Web Vitals: LCP < 2.5s, CLS < 0.1, INP < 200ms

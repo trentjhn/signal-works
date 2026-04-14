@@ -122,7 +122,7 @@ Direct, warm, Oakland-rooted, specific. Not corporate. Not startup hype. Sounds 
 **Logo:** SignalWorks
 **Tagline:** Automation that actually gets built.
 **Links:** Process | About | Book an Audit
-**Contact:** hello@signal.works
+**Contact:** hello@signalworks.live
 **Copyright:** © 2026 SignalWorks. All rights reserved.
 
 ---
