@@ -1,7 +1,7 @@
 ---
 // Footer.astro
 // Copy verbatim from PROJECT.md. Grain overlay.
-const CALENDLY_URL = 'https://calendly.com/signalworks'; // TODO: replace with real Calendly link
+import { CALENDLY_URL, CONTACT_EMAIL } from '@config/links';
 const year = new Date().getFullYear();
 ---
 
@@ -55,10 +55,10 @@ const year = new Date().getFullYear();
       <!-- Lower row: contact + copyright -->
       <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
         <a
-          href="mailto:hello@signal.works"
+          href={`mailto:${CONTACT_EMAIL}`}
           class="font-jakarta text-body text-text-secondary hover:text-text-primary transition-colors duration-[150ms]"
         >
-          hello@signal.works
+          {CONTACT_EMAIL}
         </a>
         <p class="font-jakarta text-label-sm uppercase tracking-[0.10em] text-text-secondary">
           © {year} SignalWorks. All rights reserved.
