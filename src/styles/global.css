@@ -1,9 +1,9 @@
 /* SignalWorks. Global Styles. */
 /* All values derived from DESIGN.md. Do not hardcode colors or fonts outside of this file and tailwind.config.mjs */
 
-/* ─── Font Imports ─────────────────────────────────────────────────────── */
-@import url('https://api.fontshare.com/v2/css?f[]=cabinet-grotesk@400,500,600,700,800&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600&family=Instrument+Serif:ital@0;1&display=swap');
+/* Font imports live in Layout.astro as <link> tags so they load in parallel
+   with this stylesheet rather than serially behind an @import. The serial
+   path was measurably delaying first-paint typography on production. */
 
 /* ─── Tailwind Directives ──────────────────────────────────────────────── */
 @tailwind base;

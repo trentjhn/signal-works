@@ -38,9 +38,27 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 
-    <link rel="preconnect" href="https://api.fontshare.com" />
+    <!-- Preconnect to font CDNs. cdn.fontshare.com is where the woff2 files -->
+    <!-- for Cabinet Grotesk actually live; api.fontshare.com only serves    -->
+    <!-- the @font-face CSS. Preconnect to both so the TCP and TLS handshake -->
+    <!-- is warm by the time the font URLs are discovered.                   -->
+    <link rel="preconnect" href="https://api.fontshare.com" crossorigin />
+    <link rel="preconnect" href="https://cdn.fontshare.com" crossorigin />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    <!-- Font CSS loaded via <link> in parallel with the main stylesheet.   -->
+    <!-- Previously these were @import-ed from global.css, which serialized -->
+    <!-- font discovery behind the main CSS download and parse. Moving them -->
+    <!-- to the head shaves several hundred ms off first typography paint.  -->
+    <link
+      rel="stylesheet"
+      href="https://api.fontshare.com/v2/css?f[]=cabinet-grotesk@400,500,600,700,800&display=swap"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600&family=Instrument+Serif:ital@0;1&display=swap"
+    />
 
     <title>{title}</title>
   </head>
@@ -50,9 +68,17 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     <slot />
 
     <!-- IntersectionObserver reveal: fades content in as it enters view.
-         Also observes .stroke-reveal for the clip-path numeral wipe. -->
+         Also observes .stroke-reveal for the clip-path numeral wipe.
+
+         Gated on document.fonts.ready so the hero headline cascade only
+         plays once Cabinet Grotesk is actually loaded. On a cold cache
+         the fallback sans-serif has narrower metrics than Cabinet Grotesk
+         800, and running the reveal during that window meant the headline
+         animated in at the wrong size and then snapped to the real font.
+         document.fonts.ready also has a ~3s safety timeout in case the
+         font never loads, so users aren't left staring at an empty hero. -->
     <script>
-      document.addEventListener('DOMContentLoaded', () => {
+      const startReveal = () => {
         const revealElements = document.querySelectorAll(
           '.reveal, .reveal-stagger, .stroke-reveal'
         );
@@ -81,7 +107,30 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
         );
 
         revealElements.forEach((el) => observer.observe(el));
-      });
+      };
+
+      const init = () => {
+        if (document.fonts && document.fonts.ready) {
+          let started = false;
+          const go = () => {
+            if (started) return;
+            started = true;
+            startReveal();
+          };
+          document.fonts.ready.then(go);
+          // Safety: if the font CDN hangs, start the reveal anyway after 2s
+          // so users never see a permanently-hidden hero.
+          window.setTimeout(go, 2000);
+        } else {
+          startReveal();
+        }
+      };
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+      } else {
+        init();
+      }
     </script>
 
   </body>
