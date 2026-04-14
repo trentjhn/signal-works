@@ -1,5 +1,5 @@
 ---
-// Layout.astro — Base layout shell
+// Layout.astro. Base layout shell.
 // All pages inherit from this. Do not add page-specific content here.
 interface Props {
   title?: string;
@@ -8,7 +8,7 @@ interface Props {
 }
 
 const {
-  title = 'SignalWorks — Automation that actually gets built.',
+  title = 'SignalWorks. Automation that actually gets built.',
   description = 'AI automation consulting for small businesses and agencies. We map your workflows, build the automations worth building, and hand them off clean.',
   ogImage = '/og-image.jpg',
 } = Astro.props;
@@ -43,41 +43,13 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 
     <title>{title}</title>
-
-    <!-- Fold capability gate — runs before first paint. Sets .fold-capable on  -->
-    <!-- html so CSS can pre-pose sections 2+ into their hinged-away position.  -->
-    <!-- Prevents the unstyled flash where all sections render flat before the  -->
-    <!-- GSAP script runs. A watchdog removes the class if GSAP never activates.-->
-    <script is:inline>
-      (function () {
-        try {
-          var d = window.matchMedia('(min-width: 1024px)').matches;
-          var m = window.matchMedia('(prefers-reduced-motion: no-preference)').matches;
-          if (d && m) {
-            document.documentElement.classList.add('fold-capable');
-            // Safety: if GSAP hasn't taken over within 2.5s, revert so the page
-            // never stays permanently hidden on a failed script load.
-            setTimeout(function () {
-              if (!document.documentElement.classList.contains('fold-active')) {
-                document.documentElement.classList.remove('fold-capable');
-              }
-            }, 2500);
-          }
-        } catch (e) {}
-      })();
-    </script>
   </head>
   <body>
     <a href="#hero" class="skip-link">Skip to content</a>
     <div class="page-grain" aria-hidden="true"></div>
     <slot />
 
-    <!-- ═══════════════════════════════════════════════════════════════ -->
-    <!-- IntersectionObserver reveal — runs on mobile + desktop-reduced-  -->
-    <!-- motion paths. Desktop fold mode disables .reveal/.reveal-stagger -->
-    <!-- via CSS inside .fold-active .fold-deck, so this is a no-op there -->
-    <!-- but the observer still fires harmlessly.                         -->
-    <!-- ═══════════════════════════════════════════════════════════════ -->
+    <!-- IntersectionObserver reveal: fades content in as it enters view. -->
     <script>
       document.addEventListener('DOMContentLoaded', () => {
         const revealElements = document.querySelectorAll('.reveal, .reveal-stagger');
@@ -109,144 +81,5 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
       });
     </script>
 
-    <!-- ═══════════════════════════════════════════════════════════════ -->
-    <!-- DESKTOP HINGE-FOLD — GSAP ScrollTrigger                          -->
-    <!-- Runs only when: viewport >= 1024px AND prefers-reduced-motion is -->
-    <!-- not set. On mobile and on reduced-motion, this block is a noop — -->
-    <!-- CSS mandatory scroll-snap takes over from global.css.            -->
-    <!-- ═══════════════════════════════════════════════════════════════ -->
-    <script>
-      import { gsap } from 'gsap';
-      import { ScrollTrigger } from 'gsap/ScrollTrigger';
-
-      const desktopMQ = window.matchMedia('(min-width: 1024px)');
-      const motionMQ  = window.matchMedia('(prefers-reduced-motion: no-preference)');
-
-      let foldActive = false;
-
-      function activateFold() {
-        if (foldActive) return;
-        if (!desktopMQ.matches || !motionMQ.matches) return;
-
-        foldActive = true;
-        gsap.registerPlugin(ScrollTrigger);
-
-        document.documentElement.classList.add('fold-active');
-        const main = document.querySelector('main');
-        if (!main) return;
-        main.classList.add('fold-deck');
-
-        const sections = gsap.utils.toArray<HTMLElement>('main.fold-deck > section');
-        if (sections.length < 2) return;
-
-        // Max fold angle. 70deg is steep enough to read as "the section is
-        // leaving" without hitting the 90deg edge-on singularity where
-        // sub-pixel compositing gets ugly.
-        const MAX_ROT = 70;
-
-        // Initial pose — first face flat, every subsequent face pre-hinged
-        // upward around its top edge (invisible from viewer angle).
-        sections.forEach((section, i) => {
-          gsap.set(section, {
-            transformOrigin: 'top center',
-            rotateX: i === 0 ? 0 : -MAX_ROT,
-            opacity: i === 0 ? 1 : 0.55,
-          });
-        });
-
-        // One ScrollTrigger per outgoing→incoming pair. The trigger's range
-        // covers the scroll from the top of section i to the top of section
-        // i+1 (exactly one viewport on a 100vh deck). Inside that range we
-        // drive a single progress value that controls BOTH sides of the
-        // hinge simultaneously.
-        sections.forEach((section, i) => {
-          if (i === sections.length - 1) return;
-          const next = sections[i + 1];
-
-          ScrollTrigger.create({
-            trigger: section,
-            start: 'top top',
-            end: 'bottom top',
-            scrub: 0.6,
-            onUpdate: (self) => {
-              const p = self.progress;
-              // Outgoing: origin bottom, 0 → -MAX_ROT, opacity 1 → 0.4
-              gsap.set(section, {
-                transformOrigin: 'bottom center',
-                rotateX: -MAX_ROT * p,
-                opacity: 1 - 0.6 * p,
-              });
-              // Incoming: origin top, -MAX_ROT → 0, opacity 0.4 → 1
-              gsap.set(next, {
-                transformOrigin: 'top center',
-                rotateX: -MAX_ROT * (1 - p),
-                opacity: 0.4 + 0.6 * p,
-              });
-            },
-          });
-        });
-
-        // Snap to the nearest face. Uses ScrollTrigger's own snap, not CSS
-        // scroll-snap, because CSS mandatory-snap re-seats scrollTop mid-
-        // scrub and breaks the fold math.
-        ScrollTrigger.create({
-          snap: {
-            snapTo: (value) => {
-              const count = sections.length - 1;
-              return Math.round(value * count) / count;
-            },
-            duration: { min: 0.3, max: 0.7 },
-            delay: 0.05,
-            ease: 'power2.inOut',
-          },
-          start: 0,
-          end: 'max',
-        });
-
-        ScrollTrigger.refresh();
-      }
-
-      function deactivateFold() {
-        if (!foldActive) return;
-        foldActive = false;
-
-        document.documentElement.classList.remove('fold-active');
-        const main = document.querySelector('main');
-        main?.classList.remove('fold-deck');
-
-        ScrollTrigger.getAll().forEach((t) => t.kill());
-        gsap.utils.toArray<HTMLElement>('main > section').forEach((section) => {
-          gsap.set(section, { clearProps: 'transform,opacity,transformOrigin,willChange' });
-        });
-      }
-
-      function evaluate() {
-        if (desktopMQ.matches && motionMQ.matches) {
-          activateFold();
-        } else {
-          deactivateFold();
-        }
-      }
-
-      // Wait for layout so section heights are settled before ScrollTrigger
-      // reads them. requestIdleCallback → rAF → setTimeout fallback chain.
-      const ready = () => {
-        if ('requestIdleCallback' in window) {
-          (window as any).requestIdleCallback(evaluate, { timeout: 300 });
-        } else {
-          requestAnimationFrame(() => setTimeout(evaluate, 0));
-        }
-      };
-
-      if (document.readyState === 'complete') {
-        ready();
-      } else {
-        window.addEventListener('load', ready, { once: true });
-      }
-
-      // Respond to breakpoint / motion-pref flips at runtime.
-      desktopMQ.addEventListener('change', evaluate);
-      motionMQ.addEventListener('change', evaluate);
-    </script>
   </body>
 </html>

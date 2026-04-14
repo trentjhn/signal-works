@@ -1,4 +1,4 @@
-/* SignalWorks — Global Styles */
+/* SignalWorks. Global Styles. */
 /* All values derived from DESIGN.md. Do not hardcode colors or fonts outside of this file and tailwind.config.mjs */
 
 /* ─── Font Imports ─────────────────────────────────────────────────────── */
@@ -12,7 +12,7 @@
 
 /* ─── Component classes (reusable, replaces repeated class strings) ────── */
 @layer components {
-  /* Primary button — matches DESIGN.md Button (primary) spec */
+  /* Primary button.matches DESIGN.md Button (primary) spec */
   .btn-primary {
     @apply inline-flex items-center h-12 px-7
            bg-accent text-background
@@ -32,7 +32,7 @@
            focus-visible:outline focus-visible:outline-2 focus-visible:outline-accent focus-visible:outline-offset-[3px];
   }
 
-  /* Skip-to-content link — visually hidden until keyboard-focused */
+  /* Skip-to-content link.visually hidden until keyboard-focused */
   .skip-link {
     @apply sr-only;
   }
@@ -83,7 +83,13 @@ html {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
-  scroll-behavior: smooth;
+}
+
+/* Smooth anchor scrolling only when the user hasn't requested reduced motion. */
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
 }
 
 body {
@@ -133,33 +139,14 @@ a {
   }
 }
 
-/* ─── Section Padding (legacy — kept for any non-fold section we add later) */
-.section-padding {
-  padding: 96px 0;
-}
-@media (max-width: 768px) {
-  .section-padding {
-    padding: 64px 0;
-  }
-}
-
-/* ─── Fold face utility ────────────────────────────────────────────────── */
-/* Every face of the deck uses .section. Min-height follows a cascade so mobile */
-/* Safari's shrinking URL bar doesn't truncate content (svh) while desktop keeps */
-/* the predictable vh reference. Vertical centering is baked in so child         */
-/* containers don't need their own flex-center. Padding uses the fold-pad token  */
-/* (80px) rather than the legacy 96px section-padding — the 100vh viewport is    */
-/* doing the breathing-room work, padding only guarantees edge clearance.        */
+/* ─── Section utility ──────────────────────────────────────────────────── */
+/* Normal padded sections. No forced viewport height, no scroll-snap, no 3D. */
+/* Content flows at its natural height; padding provides breathing room.     */
 .section {
   position: relative;
-  min-height: 100vh;   /* fallback for older Safari */
-  min-height: 100svh;  /* stable small-viewport height — does not shift as mobile URL bar hides */
-  padding: var(--fold-pad) 0;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  scroll-snap-align: start;
-  scroll-snap-stop: normal;
+  padding: 112px 0;
+  /* Offset anchor jumps so the sticky nav doesn't clip the section eyebrow. */
+  scroll-margin-top: var(--nav-height);
 }
 
 @media (max-width: 1023px) {
@@ -168,26 +155,30 @@ a {
   }
 }
 
-/* The very first section reserves space for the sticky nav so the hero headline */
-/* doesn't sit immediately under the logo.                                       */
+/* The very first section reserves space for the sticky nav so the hero */
+/* headline doesn't sit immediately under the logo. Smaller top pad on  */
+/* the hero so the full hero (headline, body, CTA, rule, coda) fits in  */
+/* view at ~900px viewport heights without scroll.                      */
 main > .section:first-child {
-  padding-top: calc(var(--fold-pad) + var(--nav-height));
+  padding-top: calc(64px + var(--nav-height));
 }
 @media (max-width: 1023px) {
   main > .section:first-child {
-    padding-top: calc(72px + 60px);
+    padding-top: calc(48px + 60px);
   }
 }
 
 /* ─── Body-level grain overlay ─────────────────────────────────────────── */
 /* Single fixed layer. Lives outside the 3D perspective chain, so it is          */
-/* unaffected by section folds. Pointer-events off — never intercepts clicks.    */
+/* unaffected by section folds. Pointer-events off.never intercepts clicks.    */
 .page-grain {
   position: fixed;
   inset: 0;
   pointer-events: none;
   z-index: 150;
-  opacity: 0.032;
+  /* Single global value.slightly below the 0.025 spec on #FAFAF8 to avoid  */
+  /* reading too hot on the surface #F0EAD8 folds. Documented in DESIGN.md.  */
+  opacity: 0.022;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
 }
 
@@ -227,7 +218,7 @@ main > .section:first-child {
 }
 
 /* ─── Utility: Editorial Accent Type ──────────────────────────────────── */
-/* Instrument Serif italic optically overlaps itself at larger sizes — a     */
+/* Instrument Serif italic optically overlaps itself at larger sizes.a     */
 /* small positive tracking restores breathing without affecting Roman copy.  */
 .editorial {
   font-family: 'Instrument Serif', serif;
@@ -247,79 +238,3 @@ main > .section:first-child {
   color: var(--color-accent);
 }
 
-/* ═══════════════════════════════════════════════════════════════════════ */
-/* ─── Motion paths: mobile vs desktop vs reduced-motion ────────────────── */
-/* ═══════════════════════════════════════════════════════════════════════ */
-
-/* -------- MOBILE path (< 1024px, any motion pref) -----------------------
- * Native CSS mandatory snap + IntersectionObserver reveals.
- * No 3D, no GSAP. Scroll-snap is the OS's job.
- * -------------------------------------------------------------------- */
-@media (max-width: 1023px) {
-  html {
-    scroll-snap-type: y mandatory;
-  }
-  main > section,
-  footer {
-    scroll-snap-align: start;
-    scroll-margin-top: 0;
-  }
-}
-
-/* -------- DESKTOP + reduced-motion path (>= 1024px, prefers-reduced-motion)
- * Same mandatory snap, no 3D, no GSAP. Reveals still work because .reveal
- * is gated on `prefers-reduced-motion: no-preference` above.
- * -------------------------------------------------------------------- */
-@media (min-width: 1024px) and (prefers-reduced-motion: reduce) {
-  html {
-    scroll-snap-type: y mandatory;
-  }
-  main > section {
-    scroll-snap-align: start;
-  }
-}
-
-/* -------- DESKTOP + motion-ok path (>= 1024px, no-preference) -----------
- * Two class states on <html>:
- *   .fold-capable — set synchronously in the head before first paint.
- *                   CSS pre-poses sections 2+ so the first render is
- *                   already in fold position (no unstyled flash).
- *   .fold-active  — set by the deferred GSAP script once ScrollTrigger
- *                   has taken over. Adds the full perspective container
- *                   and suppresses the reveal system inside the deck.
- * A head-script watchdog clears .fold-capable after 2.5s if .fold-active
- * never arrives, so a failed GSAP import can't permanently hide the page.
- * -------------------------------------------------------------------- */
-@media (min-width: 1024px) and (prefers-reduced-motion: no-preference) {
-  html.fold-capable body {
-    overflow-x: hidden;
-  }
-  html.fold-capable main {
-    perspective: 1800px;
-    perspective-origin: 50% 50%;
-    transform-style: preserve-3d;
-    position: relative;
-  }
-  html.fold-capable main > section {
-    transform-style: preserve-3d;
-    backface-visibility: hidden;
-    will-change: transform, opacity;
-  }
-  /* Pre-pose sections 2+ so first paint already shows the hinged-away state.  */
-  /* GSAP will write inline transforms that supersede these rules once active. */
-  html.fold-capable main > section:not(:first-child) {
-    transform: rotateX(-70deg);
-    transform-origin: top center;
-    opacity: 0.4;
-  }
-
-  /* Disable reveal-system animations inside the fold deck — the fold IS the  */
-  /* reveal for sections 2+. Scoped to :not(:first-child) so Hero still runs  */
-  /* its own load-in staggered reveal on first paint.                         */
-  html.fold-active main.fold-deck > section:not(:first-child) .reveal,
-  html.fold-active main.fold-deck > section:not(:first-child) .reveal-stagger {
-    opacity: 1 !important;
-    transform: none !important;
-    transition: none !important;
-  }
-}
