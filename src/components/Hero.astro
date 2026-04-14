@@ -1,8 +1,8 @@
 ---
 // Hero.astro
-// All copy from PROJECT.md — do not edit copy here without updating PROJECT.md.
+// All copy from PROJECT.md. Do not edit copy here without updating PROJECT.md.
 // Layout: single strong left-aligned editorial block. Whitespace on the right
-// is intentional — the headline carries the section. No stat panel, no images.
+// is intentional. The headline carries the section. No stat panel, no images.
 // PayPal stats live in About, not here.
 const CALENDLY_URL = 'https://calendly.com/signalworks'; // TODO: replace with real Calendly link
 ---
@@ -14,40 +14,36 @@ const CALENDLY_URL = 'https://calendly.com/signalworks'; // TODO: replace with r
 >
   <div class="container w-full">
 
-    <div class="max-w-[880px]">
+    <div class="max-w-[1040px]">
 
       <h1
-        class="font-cabinet font-extrabold text-display text-text-primary mb-10 reveal-stagger"
+        class="font-cabinet font-bold text-display text-text-primary mb-8 reveal-stagger"
         style="--stagger-delay: 0ms;"
       >
-        We build the workflows
-        <br class="hidden md:block" />
-        you wish your AI&nbsp;tools
-        <br class="hidden md:block" />
-        did on their&nbsp;own.
+        We build the workflows you wish your AI tools did on their own.
       </h1>
 
       <p
-        class="font-jakarta text-body-lg text-text-secondary max-w-[58ch] mb-10 reveal-stagger"
+        class="font-jakarta text-body-lg text-text-secondary max-w-[58ch] mb-8 reveal-stagger"
         style="--stagger-delay: 80ms"
       >
         We sit down with you, map your actual workflows,
-        and hand you a prioritized plan for what's worth automating —
+        and hand you a prioritized plan for what's worth automating,
         whether you work with us or not.
       </p>
 
-      <div class="mb-14 reveal-stagger" style="--stagger-delay: 160ms">
+      <div class="mb-10 reveal-stagger" style="--stagger-delay: 160ms">
         <a
           href={CALENDLY_URL}
           target="_blank"
           rel="noopener noreferrer"
           class="btn-primary"
         >
-          Book a Workflow Audit
+          Book the Audit
         </a>
       </div>
 
-      <!-- Thin rule + editorial accent line — quiet punctuation, no stat -->
+      <!-- Thin rule + editorial accent line. Quiet punctuation, no stat -->
       <!-- panel. This replaces the old "processed over 100M transactions" -->
       <!-- line which was PayPal borrowed credibility in the wrong place.  -->
       <div class="reveal-stagger" style="--stagger-delay: 240ms">

@@ -4,7 +4,7 @@ export default {
   theme: {
     extend: {
       colors: {
-        // All values from DESIGN.md — do not change without updating DESIGN.md
+        // All values from DESIGN.md. Do not change without updating DESIGN.md.
         background:        '#FAFAF8',
         surface:           '#F0EAD8',
         'surface-elevated':'#E8DFC8',
@@ -27,8 +27,8 @@ export default {
         serif:   ['"Instrument Serif"', 'serif'],
       },
       fontSize: {
-        // clamp values for fluid typography — matches DESIGN.md
-        'display':  ['clamp(64px, 8vw, 120px)', { lineHeight: '0.96', letterSpacing: '-0.02em' }],
+        // clamp values for fluid typography. Matches DESIGN.md.
+        'display':  ['clamp(44px, 5vw, 72px)',  { lineHeight: '1.04', letterSpacing: '-0.02em' }],
         'headline': ['clamp(32px, 4vw, 52px)',  { lineHeight: '1.08', letterSpacing: '-0.02em' }],
         'subhead':  ['clamp(20px, 2.5vw, 28px)',{ lineHeight: '1.25', letterSpacing: '-0.02em' }],
         'body-lg':  ['clamp(18px, 1.6vw, 22px)',{ lineHeight: '1.6' }],

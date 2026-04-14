@@ -28,9 +28,9 @@ SignalWorks presents as a boutique strategy firm that happens to be built on AI 
 
 All fonts load from Google Fonts or Fontshare. Load order: Cabinet Grotesk, Plus Jakarta Sans, Instrument Serif.
 
-- **Display**: Cabinet Grotesk, weights 700 + 800, size: clamp(64px, 8vw, 120px), tracking: `-0.02em`, line-height: `0.96`. Usage: hero headline, single above-the-fold statement, section anchors with maximum visual weight. Never more than 2 lines at this scale. (Tracking relaxed from `-0.04em` on 2026-04-14 after optical review — Cabinet Grotesk 800 collides characters at `-0.04em` past 96px.)
+- **Display**: Cabinet Grotesk, weight 700, size: clamp(44px, 5vw, 72px), tracking: `-0.02em`, line-height: `1.04`. Usage: hero headline, single above-the-fold statement, section anchors with maximum visual weight. Works for 2 or 3 lines. (Scale walked back from clamp(64px, 8vw, 120px) to clamp(44px, 5vw, 72px) on 2026-04-14 after the Hero's 13-word headline wrapped to 5 lines at 115px and overflowed the viewport. The original clamp only worked for 1-2 word display statements; the actual hero copy needed headline-weight at a more measured scale. Line-height also relaxed from 0.96 to 1.04 so multi-line headlines don't kiss.)
 
-- **Headline**: Cabinet Grotesk, weight 600, size: clamp(32px, 4vw, 52px), tracking: `-0.02em`, line-height: `1.08`. Usage: section headers, service names, case study titles. Use regularly throughout the page.
+- **Headline**: Cabinet Grotesk, weight 700, size: clamp(32px, 4vw, 52px), tracking: `-0.02em`, line-height: `1.08`. Usage: section headers, service names, case study titles. Use regularly throughout the page. (Weight updated from 600 → 700 on 2026-04-14 to match the as-built state; 600 rendered too light at clamp-min on the cream backgrounds.)
 
 - **Subheading**: Cabinet Grotesk, weight 500, size: clamp(20px, 2.5vw, 28px), tracking: `-0.02em`, line-height: `1.25`. Usage: supporting context beneath headlines, second-level hierarchy within sections.
 
