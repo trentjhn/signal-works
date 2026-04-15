@@ -44,18 +44,13 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 
-    <!-- Preload the self-hosted Cabinet Grotesk 700 woff2 used by the hero  -->
-    <!-- H1. Local path means the browser starts fetching it from the same   -->
-    <!-- Vercel edge as the HTML and usually lands before first paint,       -->
-    <!-- eliminating the CLS shift from font swap. Same-origin so no         -->
-    <!-- crossorigin attribute and no cross-origin handshake cost.           -->
-    <link
-      rel="preload"
-      as="font"
-      type="font/woff2"
-      href="/fonts/cabinet-grotesk-700.woff2"
-      crossorigin
-    />
+    <!-- Cabinet Grotesk 700 is discovered via the inlined @font-face rule   -->
+    <!-- and fetched from the same Vercel edge as the HTML. We used to       -->
+    <!-- preload it, but with the font self-hosted same-origin the preload   -->
+    <!-- was elevating it to "critical" priority, which made Chrome delay    -->
+    <!-- first paint by a few hundred ms in a bid to avoid FOUT even under   -->
+    <!-- font-display: swap. Removing the preload lets the fallback paint    -->
+    <!-- immediately and the real font swap in when it arrives.              -->
 
     <!-- Google Fonts CSS loaded non-render-blocking via the media=print     -->
     <!-- onload swap. Browsers treat a non-matching media query as non-      -->
