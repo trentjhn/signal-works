@@ -1,6 +1,8 @@
 ---
 // Layout.astro. Base layout shell.
 // All pages inherit from this. Do not add page-specific content here.
+import Analytics from '@vercel/analytics/astro';
+
 interface Props {
   title?: string;
   description?: string;
@@ -143,5 +145,6 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
       }
     </script>
 
+    <Analytics />
   </body>
 </html>
