@@ -301,6 +301,62 @@ main > .section:first-child {
   .stroke-reveal.is-visible {
     clip-path: inset(0% 0 0 0);
   }
+
+  /* Aside reveal. Used on the About section's closing pull-out aside.    */
+  /* Two synchronized parts: the left bar scales vertically from 0 to 1   */
+  /* (anchored at the top, so it draws downward like a pencil down the    */
+  /* margin) while the text fades up with a short 8px translate. Text     */
+  /* starts 150ms after the bar so the frame opens slightly before the    */
+  /* content lands in it. Both parts land together around 800ms total.    */
+  /*                                                                      */
+  /* The bar is a ::before pseudo-element on the paragraph itself (not    */
+  /* the aside wrapper), so it spans exactly the paragraph's height and   */
+  /* never leaks into the aside's top padding or collides with the bio    */
+  /* section's bottom border above. The paragraph keeps pl-6 so text      */
+  /* sits 24px clear of the 2px bar.                                      */
+  /*                                                                      */
+  /* Mobile: same IntersectionObserver threshold and rootMargin, same     */
+  /* transform and transition. Works identically on iOS/Android; Safari   */
+  /* and Chrome mobile both honor scaleY + transform-origin on pseudo    */
+  /* elements without vendor prefixes.                                    */
+  .reveal-aside > p::before {
+    transform: scaleY(0);
+    transform-origin: top;
+    transition: transform 800ms var(--ease-premium);
+  }
+  .reveal-aside > p {
+    opacity: 0;
+    transform: translateY(8px);
+    transition: opacity 700ms var(--ease-premium) 150ms,
+                transform 700ms var(--ease-premium) 150ms;
+  }
+  .reveal-aside.is-visible > p::before {
+    transform: scaleY(1);
+  }
+  .reveal-aside.is-visible > p {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Reveal-aside static styles (outside the reduced-motion media query so  */
+/* they always apply). The bar hugs the paragraph, not the aside wrapper,*/
+/* so its height tracks the paragraph's natural wrapped height at any    */
+/* viewport width without leaking into the aside's top padding. Inside   */
+/* the @media above, the transform + transition rules take over and      */
+/* animate the bar in on scroll. Reduced-motion users see the bar fully  */
+/* drawn at all times, no animation.                                     */
+.reveal-aside > p {
+  position: relative;
+}
+.reveal-aside > p::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background-color: var(--color-border);
 }
 
 /* ─── Utility: Eyebrow Label ───────────────────────────────────────────── */
