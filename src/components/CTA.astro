@@ -2,7 +2,7 @@
 // CTA.astro
 // Final CTA. One headline, one subtext, one button, one trust line.
 // Copy verbatim from PROJECT.md. Resist filling space.
-import { CALENDLY_URL } from '@config/links';
+import { CALENDLY_URL, CONTACT_EMAIL } from '@config/links';
 ---
 
 <section
@@ -32,7 +32,12 @@ import { CALENDLY_URL } from '@config/links';
         No follow-up pitch.
       </p>
 
-      <!-- Primary CTA -->
+      <!-- Primary CTA. Calendly stays the dominant action. The mailto -->
+      <!-- below is a quiet alternate for visitors who prefer not to    -->
+      <!-- self-book. PROJECT.md says one action, no secondary goal,    -->
+      <!-- so the mailto is treated as a same-action variant of contact -->
+      <!-- rather than a competing CTA: no second button, no styling    -->
+      <!-- weight, just a sentence.                                     -->
       <div class="mb-10 reveal">
         <a
           href={CALENDLY_URL}
@@ -42,6 +47,15 @@ import { CALENDLY_URL } from '@config/links';
         >
           Book the Audit
         </a>
+        <p class="font-jakarta text-body text-text-secondary mt-5">
+          Or send us a note at{' '}
+          <a
+            href={`mailto:${CONTACT_EMAIL}`}
+            class="text-text-primary underline underline-offset-4 decoration-1 hover:text-accent transition-colors duration-[150ms]"
+          >
+            {CONTACT_EMAIL}
+          </a>.
+        </p>
       </div>
 
       <!-- Thin rule separator.unified to 120px to match Hero + ProcessStep. -->
