@@ -1,9 +1,30 @@
 /* SignalWorks. Global Styles. */
 /* All values derived from DESIGN.md. Do not hardcode colors or fonts outside of this file and tailwind.config.mjs */
 
-/* Font imports live in Layout.astro as <link> tags so they load in parallel
-   with this stylesheet rather than serially behind an @import. The serial
-   path was measurably delaying first-paint typography on production. */
+/* Cabinet Grotesk is self-hosted from /public/fonts/. We used to pull all
+   five weights from api.fontshare.com, but Lighthouse was showing the 700
+   weight as the LCP-blocking font and CDN edge variance was swinging LCP
+   by 2s across runs. Self-hosting pins it to the same edge as the HTML,
+   cuts the fontshare TLS handshake, and lets Vercel cache aggressively.
+   Only 700 (headlines) and 800 (nav logo) are actually used, so we drop
+   the other three weights the fontshare URL was shipping.
+   Plus Jakarta Sans and Instrument Serif still load from Google Fonts
+   via Layout.astro since Google Fonts is on a fast global edge and we
+   don't hit the same LCP criticality there. */
+@font-face {
+  font-family: 'Cabinet Grotesk';
+  src: url('/fonts/cabinet-grotesk-700.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Cabinet Grotesk';
+  src: url('/fonts/cabinet-grotesk-800.woff2') format('woff2');
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
 
 /* ─── Tailwind Directives ──────────────────────────────────────────────── */
 @tailwind base;

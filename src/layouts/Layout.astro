@@ -38,42 +38,30 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 
-    <!-- Preconnect to font CDNs. cdn.fontshare.com is where the woff2 files -->
-    <!-- for Cabinet Grotesk actually live; api.fontshare.com only serves    -->
-    <!-- the @font-face CSS. Preconnect to both so the TCP and TLS handshake -->
-    <!-- is warm by the time the font URLs are discovered.                   -->
-    <link rel="preconnect" href="https://api.fontshare.com" crossorigin />
-    <link rel="preconnect" href="https://cdn.fontshare.com" crossorigin />
+    <!-- Google Fonts preconnect for Plus Jakarta Sans and Instrument Serif.  -->
+    <!-- Cabinet Grotesk is self-hosted from /fonts/ so no fontshare          -->
+    <!-- preconnect is needed.                                                -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 
-    <!-- Preload the Cabinet Grotesk 800 woff2 used by the hero H1. The hero    -->
-    <!-- is the LCP element and the initial layout shift is caused by the H1   -->
-    <!-- re-laying out when the real font swaps in over the fallback. Starting -->
-    <!-- the fetch at HTML parse time lets the font land before first paint    -->
-    <!-- so there is nothing to swap. Hashed URL is fragile but fontshare       -->
-    <!-- serves stable hashes per font version; if it rotates, the browser      -->
-    <!-- still falls back to the normal @font-face loading path gracefully.    -->
+    <!-- Preload the self-hosted Cabinet Grotesk 700 woff2 used by the hero  -->
+    <!-- H1. Local path means the browser starts fetching it from the same   -->
+    <!-- Vercel edge as the HTML and usually lands before first paint,       -->
+    <!-- eliminating the CLS shift from font swap. Same-origin so no         -->
+    <!-- crossorigin attribute and no cross-origin handshake cost.           -->
     <link
       rel="preload"
       as="font"
       type="font/woff2"
-      href="https://cdn.fontshare.com/wf/XMXWOHABYLQDJ42L65EFRYNVRY37HQCB/B2O4O6V3JMFM2WDCYQI3A47L5U4THDUL/WN5274VQ3AUBDFP74GB4EC4XYJ3EKVNE.woff2"
+      href="/fonts/cabinet-grotesk-700.woff2"
       crossorigin
     />
 
-    <!-- Font CSS loaded non-render-blocking via the media=print onload swap. -->
-    <!-- media=print means the browser treats the stylesheet as non-matching  -->
-    <!-- for screen so it doesn't block render; onload flips media back to    -->
-    <!-- all once loaded. font-display: swap renders text with the fallback   -->
-    <!-- immediately and swaps in the real fonts as soon as they arrive.      -->
-    <!-- Lighthouse showed the prior blocking links cost ~2s of LCP on mobile -->
-    <link
-      rel="stylesheet"
-      href="https://api.fontshare.com/v2/css?f[]=cabinet-grotesk@400,500,600,700,800&display=swap"
-      media="print"
-      onload="this.media='all'"
-    />
+    <!-- Google Fonts CSS loaded non-render-blocking via the media=print     -->
+    <!-- onload swap. Browsers treat a non-matching media query as non-      -->
+    <!-- blocking; onload flips it back to all once loaded. font-display:    -->
+    <!-- swap in the URL renders text with the fallback immediately and      -->
+    <!-- swaps in Jakarta / Instrument Serif as soon as they arrive.         -->
     <link
       rel="stylesheet"
       href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600&family=Instrument+Serif:ital@0;1&display=swap"
@@ -81,10 +69,6 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
       onload="this.media='all'"
     />
     <noscript>
-      <link
-        rel="stylesheet"
-        href="https://api.fontshare.com/v2/css?f[]=cabinet-grotesk@400,500,600,700,800&display=swap"
-      />
       <link
         rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600&family=Instrument+Serif:ital@0;1&display=swap"
