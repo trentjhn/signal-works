@@ -33,7 +33,13 @@ const founders = [
         from reading as one continuous block. */}
     <hr class="border-0 border-t border-border mb-20 lg:mb-24 reveal" />
 
-    <!-- Section header. Single column, left-aligned. -->
+    <!-- Section header. Single column, left-aligned.
+         The old subhead under the headline named "agent engine optimization"
+         as a focus, which structurally read as a value prop and overweighted
+         a single specialty. AEO is still a live focus for the firm, but it
+         now lives as a pulled-out observation at the bottom of this section
+         (see the aside below) so the header can carry the broader
+         who-we-are statement without competing. -->
     <div class="mb-16 lg:mb-20 max-w-[920px]">
       <p class="eyebrow mb-5 reveal">Who We Are</p>
       <h2 class="font-cabinet font-bold text-headline text-text-primary reveal">
@@ -41,9 +47,6 @@ const founders = [
         <br />
         so your team doesn't have to.
       </h2>
-      <p class="font-jakarta text-body-lg text-text-secondary mt-8 max-w-[58ch] reveal">
-        Current focus: agent engine optimization. Search is moving inside AI assistants. Most businesses have not noticed.
-      </p>
     </div>
 
     <!-- Founder bios.stacked editorial rows -->
@@ -75,6 +78,26 @@ const founders = [
         </article>
       ))}
     </div>
+
+    {/* Pulled-out observation from the founders. Uses the same family
+        and size as the bio prose above (Plus Jakarta sans at body-lg)
+        so it reads as one more paragraph in their voice, set apart
+        only by a thin left bar + left padding. Deliberately NOT in
+        Instrument Serif italic.the italic serif already has one home
+        on the page (the hero's sign-off), and trying to reuse it here
+        forced every previous iteration into an awkward Goldilocks
+        search on size and weight. Treating this as a pull-out aside
+        in the bios' own voice frees it from that trap. Left bar is a
+        visual vocabulary the site doesn't use anywhere else, so it
+        reads as distinct without needing a label or rule. AEO stays
+        out of the public copy on purpose: naming the phenomenon
+        signals the territory without branding the firm as a
+        monolithic AEO shop. */}
+    <aside class="reveal-aside pt-12 lg:pt-16" aria-label="Closing note">
+      <p class="font-jakarta text-body-lg text-text-secondary max-w-[54ch] pl-6">
+        The search bar is moving inside AI assistants. Most businesses haven't noticed yet.
+      </p>
+    </aside>
 
   </div>
 </section>
