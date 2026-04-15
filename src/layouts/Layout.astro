@@ -47,6 +47,21 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 
+    <!-- Preload the Cabinet Grotesk 800 woff2 used by the hero H1. The hero    -->
+    <!-- is the LCP element and the initial layout shift is caused by the H1   -->
+    <!-- re-laying out when the real font swaps in over the fallback. Starting -->
+    <!-- the fetch at HTML parse time lets the font land before first paint    -->
+    <!-- so there is nothing to swap. Hashed URL is fragile but fontshare       -->
+    <!-- serves stable hashes per font version; if it rotates, the browser      -->
+    <!-- still falls back to the normal @font-face loading path gracefully.    -->
+    <link
+      rel="preload"
+      as="font"
+      type="font/woff2"
+      href="https://cdn.fontshare.com/wf/XMXWOHABYLQDJ42L65EFRYNVRY37HQCB/B2O4O6V3JMFM2WDCYQI3A47L5U4THDUL/WN5274VQ3AUBDFP74GB4EC4XYJ3EKVNE.woff2"
+      crossorigin
+    />
+
     <!-- Font CSS loaded non-render-blocking via the media=print onload swap. -->
     <!-- media=print means the browser treats the stylesheet as non-matching  -->
     <!-- for screen so it doesn't block render; onload flips media back to    -->
