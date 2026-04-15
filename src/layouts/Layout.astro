@@ -47,18 +47,34 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 
-    <!-- Font CSS loaded via <link> in parallel with the main stylesheet.   -->
-    <!-- Previously these were @import-ed from global.css, which serialized -->
-    <!-- font discovery behind the main CSS download and parse. Moving them -->
-    <!-- to the head shaves several hundred ms off first typography paint.  -->
+    <!-- Font CSS loaded non-render-blocking via the media=print onload swap. -->
+    <!-- media=print means the browser treats the stylesheet as non-matching  -->
+    <!-- for screen so it doesn't block render; onload flips media back to    -->
+    <!-- all once loaded. font-display: swap renders text with the fallback   -->
+    <!-- immediately and swaps in the real fonts as soon as they arrive.      -->
+    <!-- Lighthouse showed the prior blocking links cost ~2s of LCP on mobile -->
     <link
       rel="stylesheet"
       href="https://api.fontshare.com/v2/css?f[]=cabinet-grotesk@400,500,600,700,800&display=swap"
+      media="print"
+      onload="this.media='all'"
     />
     <link
       rel="stylesheet"
       href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600&family=Instrument+Serif:ital@0;1&display=swap"
+      media="print"
+      onload="this.media='all'"
     />
+    <noscript>
+      <link
+        rel="stylesheet"
+        href="https://api.fontshare.com/v2/css?f[]=cabinet-grotesk@400,500,600,700,800&display=swap"
+      />
+      <link
+        rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600&family=Instrument+Serif:ital@0;1&display=swap"
+      />
+    </noscript>
 
     <title>{title}</title>
   </head>
