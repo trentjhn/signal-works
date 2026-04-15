@@ -41,7 +41,9 @@ Single page with these sections:
 
 No blog, no case studies page, no contact form (Calendly handles booking).
 
-**Note (2026-04-14):** The Services section was cut as redundant with Process. The offer (pricing, timelines, deliverable counts) is in flux and should be kept ambiguous on-page — use outcome language, not metered specifics. Services copy is preserved below under "Retired copy" for reference but is not rendered.
+**Note (2026-04-14):** The Services section was cut as redundant with Process. The offer (pricing, timelines, deliverable counts) is in flux and should be kept ambiguous on-page. Use outcome language, not metered specifics. Services copy is preserved below under "Retired copy" for reference but is not rendered.
+
+**Note (2026-04-14, evening):** Agent Engine Optimization (AEO) added as a positioned specialty area. Full internal detail lives in `business/service-catalog.md` under "Specialty Focus: Agent Engine Optimization." The website surfaces it as a single specialty line in the About section, with no pricing and no separate page. Pricing stays off the site until the first AEO engagements validate the numbers. A secondary "or send us a note" mailto line was added under the primary CTA button in the Final CTA section, keeping Calendly as the dominant action. Both founder bios were rewritten to drop the leading "I" and read in a consistent voiceless third-person style.
 
 ## Copy brief
 
@@ -102,9 +104,11 @@ Direct, warm, Oakland-rooted, specific. Not corporate. Not startup hype. Sounds 
 **Label:** WHO WE ARE
 **Intro:** Two people. One builds the systems, one makes sure they actually get used.
 
-**Trenton Johnson:** Ex-PayPal PM. Yale CS. I've been building production AI systems since leaving PayPal — the kind that run in production, not the kind that sit on GitHub. SignalWorks is where that work gets applied to problems at a scale where a two-person team is the right team.
+**Trenton Johnson:** Former Product Manager at PayPal. Yale Computer Science. Left PayPal to build AI systems that run in production. That's still the bar: systems a business can depend on from day one, built for real use, real data, and real teams.
 
-**Jahleel:** I handle the human side. I make sure what we build actually gets adopted, and I'm the person you call when something isn't working the way you expected. Most automation projects technically work but don't change anything because nobody in the business understands how to use them. That's what I'm here to prevent.
+**Jahleel Heath:** Los Angeles-based entrepreneur and product builder. Years of AI implementation and application development. Finds where AI creates real value inside a business, then builds the systems that make it land.
+
+**Specialty line (rendered between the About headline and the founder bios):** Current focus: agent engine optimization. Search is moving inside AI assistants. Most businesses have not noticed.
 
 **Copy direction (2026-04-14):**
 - No "Technical Product Manager" label — "Ex-PayPal PM" is cleaner and drops the title dependency.
@@ -116,7 +120,8 @@ Direct, warm, Oakland-rooted, specific. Not corporate. Not startup hype. Sounds 
 **Headline:** If you're losing 10 hours a week to work that shouldn't require a human, the audit pays for itself.
 **Subtext:** You get focused attention on your specific workflows, a written summary of what's worth automating, and a prioritized roadmap. If you decide not to move forward after that, you still have the roadmap. No follow-up pitch.
 **CTA:** Book the Audit
-**Trust signal:** The audit has a clear deliverable. If you don't walk away with at least three actionable opportunities, we'll refund it.
+**Secondary contact (rendered as a quiet line under the CTA button, not a second button):** Or send us a note at hello@signalworks.live.
+**Trust signal (rewritten 2026-04-14, no refund language since pricing is in flux):** The audit has a clear deliverable. If we can't surface at least three concrete opportunities worth building, we tell you honestly. No pitch, no continued engagement.
 
 ### Footer
 **Logo:** SignalWorks
