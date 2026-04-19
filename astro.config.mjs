@@ -1,8 +1,9 @@
 import { defineConfig } from 'astro/config';
 import tailwind from '@astrojs/tailwind';
+import sitemap from '@astrojs/sitemap';
 
 export default defineConfig({
-  integrations: [tailwind()],
+  integrations: [tailwind(), sitemap()],
   site: 'https://signalworks.live',
   build: {
     // Inline the main Tailwind bundle into the HTML head instead of serving it
