@@ -11,11 +11,120 @@ interface Props {
 
 const {
   title = 'SignalWorks. Automation that actually gets built.',
-  description = 'AI automation consulting for small businesses and agencies. We map your workflows, build the automations worth building, and hand them off clean.',
+  description = 'AI automation consulting for small businesses and agencies. We map your workflows, build what is worth building, and hand it off clean.',
   ogImage = '/og-image.png',
 } = Astro.props;
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+const siteOrigin = Astro.site?.origin ?? 'https://signalworks.live';
+
+// Structured data graph. Cross-references via @id let crawlers and answer
+// engines connect Organization, WebSite, ProfessionalService, and the two
+// founder Person entities into one coherent entity profile. Pricing and
+// timelines are intentionally omitted: the offer is in flux and the site
+// does not publish numbers.
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'Organization',
+      '@id': `${siteOrigin}/#organization`,
+      name: 'SignalWorks',
+      url: siteOrigin,
+      logo: `${siteOrigin}/og-image.png`,
+      image: `${siteOrigin}/og-image.png`,
+      description:
+        'Two-person AI automation consultancy. We map workflows, build the automations worth building, and hand them off with documentation.',
+      slogan: 'Automation that actually gets built.',
+      email: 'hello@signalworks.live',
+      areaServed: [
+        { '@type': 'City', name: 'Los Angeles' },
+        { '@type': 'City', name: 'San Francisco' },
+        { '@type': 'Country', name: 'United States' },
+      ],
+      founder: [
+        { '@id': `${siteOrigin}/#trenton-johnson` },
+        { '@id': `${siteOrigin}/#jahleel-heath` },
+      ],
+      contactPoint: {
+        '@type': 'ContactPoint',
+        contactType: 'sales',
+        email: 'hello@signalworks.live',
+        url: 'https://calendly.com/hello-signalworks',
+        availableLanguage: ['English'],
+      },
+    },
+    {
+      '@type': 'WebSite',
+      '@id': `${siteOrigin}/#website`,
+      url: siteOrigin,
+      name: 'SignalWorks',
+      description,
+      inLanguage: 'en-US',
+      publisher: { '@id': `${siteOrigin}/#organization` },
+    },
+    {
+      '@type': 'ProfessionalService',
+      '@id': `${siteOrigin}/#service`,
+      name: 'SignalWorks AI Automation Consulting',
+      url: siteOrigin,
+      provider: { '@id': `${siteOrigin}/#organization` },
+      serviceType: [
+        'AI automation consulting',
+        'Workflow automation',
+        'Agent engine optimization',
+      ],
+      areaServed: [
+        { '@type': 'City', name: 'Los Angeles' },
+        { '@type': 'City', name: 'San Francisco' },
+      ],
+      audience: {
+        '@type': 'BusinessAudience',
+        audienceType: 'Small business owners and marketing agency principals',
+      },
+      hasOfferCatalog: {
+        '@type': 'OfferCatalog',
+        name: 'SignalWorks Engagements',
+        itemListElement: [
+          {
+            '@type': 'OfferCatalog',
+            name: 'The Audit',
+            description:
+              'A working session that produces a written roadmap and a ranked list of automations worth building, scored by effort and impact.',
+          },
+          {
+            '@type': 'OfferCatalog',
+            name: 'After the Audit',
+            description:
+              'Implementation of the prioritized automations, handoff with documentation and a walkthrough video, optional ongoing maintenance.',
+          },
+        ],
+      },
+    },
+    {
+      '@type': 'Person',
+      '@id': `${siteOrigin}/#trenton-johnson`,
+      name: 'Trenton Johnson',
+      jobTitle: 'Co-founder',
+      worksFor: { '@id': `${siteOrigin}/#organization` },
+      alumniOf: [
+        { '@type': 'CollegeOrUniversity', name: 'Yale University' },
+        { '@type': 'Organization', name: 'PayPal' },
+      ],
+      description:
+        'Former Product Manager at PayPal. Yale Computer Science. Builds AI systems that run in production.',
+    },
+    {
+      '@type': 'Person',
+      '@id': `${siteOrigin}/#jahleel-heath`,
+      name: 'Jahleel Heath',
+      jobTitle: 'Co-founder',
+      worksFor: { '@id': `${siteOrigin}/#organization` },
+      description:
+        'Los Angeles based entrepreneur and product builder. Years of AI implementation and application development.',
+    },
+  ],
+};
 ---
 
 <!doctype html>
@@ -24,10 +133,13 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content={description} />
+    <meta name="theme-color" content="#FAFAF8" />
 
     <link rel="canonical" href={canonicalURL} />
 
     <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="SignalWorks" />
+    <meta property="og:locale" content="en_US" />
     <meta property="og:url" content={canonicalURL} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
@@ -39,6 +151,12 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site);
     <meta name="twitter:image" content={new URL(ogImage, Astro.site)} />
 
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <!-- JSON-LD structured data. One @graph with cross-referenced @ids so
+         Organization, WebSite, ProfessionalService, and the two founder
+         Person nodes connect into a single entity profile for Google,
+         Bing, and AI answer engines. -->
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
 
     <!-- Google Fonts preconnect for Plus Jakarta Sans and Instrument Serif.  -->
     <!-- Cabinet Grotesk is self-hosted from /fonts/ so no fontshare          -->

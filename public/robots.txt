@@ -1,0 +1,9 @@
+# SignalWorks robots policy.
+# Open to all reputable crawlers, including AI/LLM crawlers (GPTBot,
+# ClaudeBot, PerplexityBot, etc.), since the site is a public marketing
+# page and discoverability inside AI assistants is part of the offer.
+
+User-agent: *
+Allow: /
+
+Sitemap: https://signalworks.live/sitemap-index.xml
