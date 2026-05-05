@@ -5,16 +5,22 @@
 // bios carry the distinction. Section headline leads on AI-native capability
 // rather than headcount.
 
+import { Image } from 'astro:assets';
+import trentImg from '../assets/team/trent.jpg';
+import jahleelImg from '../assets/team/jahleel.jpg';
+
 const founders = [
   {
     name: 'Trenton Johnson',
     location: null,
+    photo: trentImg,
     body:
       "Former Product Manager at PayPal. Yale Computer Science. Left PayPal to build AI systems that run in production. That's still the bar: systems a business can depend on from day one, built for real use, real data, and real teams.",
   },
   {
     name: 'Jahleel Heath',
     location: null,
+    photo: jahleelImg,
     body:
       "Built and led product strategy for an enterprise K-12 SaaS platform, from architecture to launch. Background in NIL marketing, brand activation, and nonprofit operations. Finds where AI creates real value inside a business, then builds the systems that make it land.",
   },
@@ -53,17 +59,33 @@ const founders = [
     <div class="flex flex-col">
       {founders.map((f, i) => (
         <article
-          class={`reveal grid grid-cols-1 lg:grid-cols-[280px_1fr] gap-8 lg:gap-16 py-12 lg:py-16 border-t border-border ${
+          class={`reveal grid grid-cols-1 lg:grid-cols-[180px_1fr] gap-8 lg:gap-12 py-12 lg:py-16 border-t border-border ${
             i === founders.length - 1 ? 'border-b border-border' : ''
           }`}
         >
-          <!-- Left rail: name only. Role labels dropped; bios speak for themselves. -->
-          <header class="flex flex-col gap-3">
-            <h3 class="font-cabinet font-bold text-subhead text-text-primary">
+          <!-- Left rail: portrait + name. Photo at 4:5 (editorial portrait
+               ratio) so wardrobe and shoulders read, not just the face.
+               Subtle 8px corner radius matches the soft-sharp system
+               (DESIGN.md): rounded for warmth, never pillish or razor-edged.
+               No drop shadow, no border. Rail sized to the photo (180px) so
+               the name centers naturally below the image on desktop. On
+               mobile the rail expands and photo + name align left to match
+               the editorial alignment of the bio prose. Role labels dropped;
+               bios speak for themselves. -->
+          <header class="flex flex-col gap-4 items-start lg:items-center">
+            <Image
+              src={f.photo}
+              alt={f.name}
+              width={400}
+              quality={85}
+              class="w-full max-w-[160px] lg:max-w-[180px] aspect-[4/5] object-cover object-[center_top] rounded-lg"
+              loading="lazy"
+            />
+            <h3 class="font-cabinet font-bold text-subhead text-text-primary lg:text-center">
               {f.name}
             </h3>
             {f.location && (
-              <p class="font-jakarta text-label-sm uppercase tracking-[0.10em] text-text-secondary">
+              <p class="font-jakarta text-label-sm uppercase tracking-[0.10em] text-text-secondary lg:text-center">
                 {f.location}
               </p>
             )}
