@@ -101,24 +101,77 @@ const founders = [
       ))}
     </div>
 
-    {/* Pulled-out observation from the founders. Uses the same family
-        and size as the bio prose above (Plus Jakarta sans at body-lg)
-        so it reads as one more paragraph in their voice, set apart
-        only by a thin left bar + left padding. Deliberately NOT in
-        Instrument Serif italic.the italic serif already has one home
-        on the page (the hero's sign-off), and trying to reuse it here
-        forced every previous iteration into an awkward Goldilocks
-        search on size and weight. Treating this as a pull-out aside
-        in the bios' own voice frees it from that trap. Left bar is a
-        visual vocabulary the site doesn't use anywhere else, so it
-        reads as distinct without needing a label or rule. AEO stays
-        out of the public copy on purpose: naming the phenomenon
-        signals the territory without branding the firm as a
-        monolithic AEO shop. */}
-    <aside class="reveal-aside pt-12 lg:pt-16" aria-label="Closing note">
-      <p class="font-jakarta text-body-lg text-text-secondary max-w-[54ch] pl-6">
-        The search bar is moving inside AI assistants. Most businesses haven't noticed yet.
-      </p>
+    {/* Pulled-out observation from the founders, paired with an AEO
+        measurement specimen. The prose states the abstract claim (search
+        moving inside AI assistants); the specimen on the right shows what
+        measuring it concretely looks like. Together they read as
+        claim-and-evidence, which is the strongest argument for the AEO
+        specialty without naming it as a service tier or pricing it.
+
+        The prose keeps the existing reveal-aside left-bar treatment (a
+        visual vocabulary the site doesn't reuse elsewhere). The specimen
+        is its own framed region: hairline border on parchment, no card
+        background, no shadow — quiet enough to read as evidence rather
+        than a popup. Static for v1; an internal bar-fill / CI-fade reveal
+        ships in a follow-up commit once geometry is approved on the
+        Vercel preview.
+
+        Layout: 1fr + 320px on desktop, stacks on mobile (prose first,
+        specimen below). Items align to start so the prose's left bar
+        anchors at the top of the row regardless of widget height. */}
+    <aside
+      class="pt-12 lg:pt-16 grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-10 lg:gap-12 items-start"
+      aria-label="Closing note"
+    >
+      <div class="reveal-aside">
+        <p class="font-jakarta text-body-lg text-text-secondary max-w-[54ch] pl-6">
+          The search bar is moving inside AI assistants. Most businesses haven't noticed yet.
+        </p>
+      </div>
+
+      <figure
+        class="reveal w-full max-w-[340px] border border-border rounded-card p-5 lg:p-6"
+        aria-label="AEO measurement specimen"
+      >
+        <figcaption class="font-jakarta font-semibold text-label-sm uppercase text-text-tertiary mb-4">
+          AEO Measurement · Specimen
+        </figcaption>
+        <p class="font-serif italic text-[16px] leading-[1.4] text-text-primary mb-5">
+          &ldquo;best AI consultant for SMBs&rdquo;
+        </p>
+        <ul class="flex flex-col gap-3.5">
+          {[
+            { engine: 'ChatGPT',    rate: 62, lo: 54, hi: 69 },
+            { engine: 'Perplexity', rate: 78, lo: 71, hi: 84 },
+            { engine: 'Claude',     rate: 31, lo: 24, hi: 39 },
+            { engine: 'Gemini',     rate: 44, lo: 37, hi: 51 },
+          ].map((row) => (
+            <li class="flex flex-col gap-1.5">
+              <div class="flex items-center justify-between">
+                <span class="font-jakarta text-[13px] text-text-primary">
+                  {row.engine}
+                </span>
+                <span class="font-jakarta font-semibold text-[14px] text-text-primary [font-feature-settings:'tnum']">
+                  {row.rate}%
+                </span>
+              </div>
+              <div class="relative h-1.5 bg-border rounded-full overflow-hidden">
+                <div
+                  class="absolute inset-y-0 left-0 bg-accent rounded-full"
+                  style={`width: ${row.rate}%`}
+                ></div>
+              </div>
+              <div class="font-jakarta text-[11px] text-text-tertiary [font-feature-settings:'tnum']">
+                Wilson 95% CI [{row.lo}, {row.hi}]
+              </div>
+            </li>
+          ))}
+        </ul>
+        <hr class="border-0 border-t border-border my-4" />
+        <p class="font-jakarta text-[11px] text-text-tertiary [font-feature-settings:'tnum']">
+          n = 500 &middot; re-measured T+30
+        </p>
+      </figure>
     </aside>
 
   </div>
